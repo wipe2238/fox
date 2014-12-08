@@ -1,0 +1,12 @@
+#ifndef __UTILS_H__
+#define __UTILS_H__
+
+#include "utils/generic_h.fos"
+
+#ifndef __UTILS__
+
+import ChangeCrTypeSafe( Critter& cr, uint8 crType ) from "utils";
+
+#endif // !__UTILS__
+
+#endif // __UTILS_H__ //

@@ -1,0 +1,7 @@
+#ifndef __WORLDMAP_H__
+#define __WORLDMAP_H__
+
+import void WorldmapAddCritter( Critter& cr ) from "worldmap";
+import void WorldmapRemoveCritter( Critter& cr ) from "worldmap";
+
+#endif // __WORLDMAP_H__ //

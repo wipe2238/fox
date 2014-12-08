@@ -1,0 +1,21 @@
+#ifndef __UTILS_SERVER__
+#define __UTILS_SERVER__
+
+#include "_defines.fos"
+#include "_macros.fos"
+
+void ChangeCrTypeSafe( Critter& cr, uint8 crType )
+{
+	Item@ armor = cr.GetItem( 0, SLOT_ARMOR );
+
+	if( valid(armor) )
+		cr.MoveItem( armor.Id, 0, SLOT_INV );
+
+	if( cr.ChangeCrType( crType ))
+		cr.ParamBase[ST_BASE_CRTYPE] = crType;
+
+	if( valid(armor) )
+		cr.MoveItem( armor.Id, 0, SLOT_ARMOR );
+}
+
+#endif // __UTIlS_SERVER__ //

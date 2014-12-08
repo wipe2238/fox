@@ -83,19 +83,6 @@ void start()
 #endif // __MAPPER
 
 #ifdef __SERVER
-void get_start_time( uint16& multipler, uint16& year, uint16& month, uint16& day, uint16& hour, uint16& minute )
-{
-    multipler = 20;
-}
-
-
-void global_process(int,Critter&,Item@,float&,float&,float&,float&,float&,uint&,bool&)
-{
-}
-
-void global_invite (Critter&,Item@,uint,int,uint&,uint16&,uint16&,uint8&)
-{
-}
 
 void map_critter_in( Map& map, Critter& cr )
 {

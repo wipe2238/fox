@@ -1,6 +1,16 @@
 #ifndef __MAIN__
 #define __MAIN__
 
+void get_start_time( uint16& multipler, uint16& year, uint16& month, uint16& day, uint16& hour, uint16& minute ) // reserved
+{
+    multipler = 1;    // 1 - 50000
+    year      = 2100; // 1700 - 30000
+    month     = 4;
+    day       = 1;
+    hour      = 9;
+    minute    = 35;
+}
+
 void init() // reserved
 {
 }

@@ -1,0 +1,61 @@
+#ifndef __WORLDMAP__
+#define __WORLDMAP__
+
+#define WORLDMAP_PLAYER  (0)
+#define WORLDMAP_NPC     (1)
+
+array<array<uint>> WorldmapCritters;
+
+void global_process( int processType, Critter& cr, Item@ car,
+                     float& curX, float& curY, float& toX, float& toY, float& speed,
+                     uint& encounterDescriptor, bool& waitForAnswer ) // reserved
+{
+}
+
+void global_invite ( Critter& cr, Item@ car,
+                     uint encounterDescriptor, int combatMode,
+                     uint& mapId, uint16& hexX, uint16& hexY, uint8& dir ) // reserved
+{
+}
+
+bool module_init() // autorun
+{
+	WorldmapCritters.resize( 2 ); // player, npc
+
+	return( true );
+}
+
+void WorldmapAddCritter( Critter& cr )
+{
+	uint8 type = WORLDMAP_PLAYER;
+
+	if( cr.IsNpc() )
+	    type = WORLDMAP_NPC;
+
+	if( WorldmapCritters[type].find( cr.Id ) >= 0 )
+	{
+	    Log( "WARNING: attempt to duplicate worldmap critter<"+cr.Id+">" );
+	    return;
+	}
+
+	WorldmapCritters[type].insertLast( cr.Id );
+}
+
+void WorldmapRemoveCritter( Critter& cr )
+{
+	uint8 type = WORLDMAP_PLAYER;
+
+	if( cr.IsNpc() )
+		type = WORLDMAP_NPC;
+
+	int idx = WorldmapCritters[type].find( cr.Id );
+	if( idx < 0 )
+	{
+	    Log( "WARNING: attempt to remove non-existing worldmap critter<"+cr.Id+">" );
+	    return;
+	}
+
+	WorldmapCritters[type].removeAt( idx );
+}
+
+#endif // __WORLDMAP__ //
