@@ -1,0 +1,26 @@
+#ifndef __CLIENT__MAIN__
+#define __CLIENT__MAIN__
+
+#include "../gui_h.fos"
+
+// TODO: module_init()
+
+import void ResetPressed() from "client/io";
+
+import void ClientVars() from "config";
+import void Geometry() from "config";
+
+bool start()
+{
+	Log( "" );
+	GUI_EngineCallback_Start();
+
+	return( true );
+}
+
+uint loop()
+{
+	return( 10 );
+}
+
+#endif // __CLIENT__MAIN__ //

@@ -1,0 +1,8 @@
+#ifndef ___CLIENT_DEFINES__
+#define ___CLIENT_DEFINES__
+
+// dummy - just to make gui*.fos happy
+
+#include "_defines.fos"
+
+#endif // ___CLIENT_DEFINES__ //

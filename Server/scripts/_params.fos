@@ -1,0 +1,419 @@
+#ifndef ___PARAMS__
+#define ___PARAMS__
+
+//
+// All enums must be shared and start with "FOnlineParam"
+//
+
+#ifndef SKIP_PRAGMAS
+    #define PRAGMA_CRDATA #(_data_)  #pragma crdata _data_
+#endif
+
+#ifdef SKIP_PRAGMAS
+    #define PRAGMA_CRDATA #(_data_)
+#endif
+
+#ifdef SKIP_PRAGMA
+    #warning SKIP_PRAGMA used
+#endif
+
+#define PARAMS_COUNT      (1000)
+
+PRAGMA_CRDATA("Stat 7 199")
+shared enum FOnlineParamStat
+{
+    //   0...  6 -> FOnlineParamSPECIAL
+    ST_MAX_LIFE             = 7,       // Hardcoded
+    ST_ACTION_POINTS        = 8,       // Hardcoded
+    ST_ARMOR_CLASS          = 9,       // Hardcoded
+    ST_MELEE_DAMAGE         = 10,      // Hardcoded
+    ST_CARRY_WEIGHT         = 11,      // Hardcoded
+    ST_SEQUENCE             = 12,      // Hardcoded
+    ST_HEALING_RATE         = 13,      // Hardcoded
+    ST_CRITICAL_CHANCE      = 14,      // Hardcoded
+//  ST_MAX_CRITICAL
+    //  16... 22 -> FOnlineParamAbsorb
+    //  23... 31 -> FOnlineParamResist
+    //  32... 63 -> FOnlineParamStatExt
+//  ST_TOXIC = 64,
+//  ST_RADIOACTIVE,
+    ST_KILL_EXPERIENCE      = 66,
+    ST_BODY_TYPE,
+    ST_LOCOMOTION_TYPE      = 68,  // See LocomotionType
+    ST_DAMAGE_TYPE,
+    ST_AGE                  = 70,  // Hardcoded
+    ST_GENDER               = 71,  // Hardcoded
+    ST_CURRENT_HP           = 72,  // Hardcoded
+    ST_POISONING_LEVEL      = 73,  // Hardcoded
+    ST_RADIATION_LEVEL      = 74,  // Hardcoded
+    ST_CURRENT_AP           = 75,  // Hardcoded
+    ST_EXPERIENCE           = 76,  // Hardcoded
+    ST_LEVEL                = 77,  // Hardcoded
+    ST_UNSPENT_SKILL_POINTS = 78,  // Hardcoded
+    ST_UNSPENT_PERKS        = 79,  // Hardcoded
+    ST_KARMA                = 80,  // Hardcoded
+    ST_FOLLOW_CRIT          = 81,  // Hardcoded
+    ST_REPLICATION_MONEY    = 82,  // Hardcoded
+    ST_REPLICATION_COUNT    = 83,  // Hardcoded
+    ST_REPLICATION_TIME     = 84,  // Hardcoded
+    ST_REPLICATION_COST     = 85,  // Hardcoded
+    ST_TURN_BASED_AC        = 86,  // Hardcoded
+    ST_MAX_MOVE_AP          = 87,  // Hardcoded
+    ST_MOVE_AP              = 88,  // Hardcoded
+    ST_NPC_ROLE             = 89,  // Hardcoded
+    //  90... 99 -> FOnlineParamVar
+//  ST_PLAYER_KARMA         = 100,
+    ST_BONUS_LOOK           = 101, // Hardcoded
+    ST_HANDS_ITEM_AND_MODE  = 102, // Hardcoded
+    ST_FREE_BARTER_PLAYER   = 103, // Hardcoded
+    ST_DIALOG_ID            = 104, // Hardcoded
+    ST_AI_ID                = 105, // Hardcoded
+    ST_TEAM_ID              = 106, // Hardcoded
+    ST_BAG_ID               = 107, // Hardcoded
+//  ST_LAST_STEAL_CR_ID,
+//  ST_STEAL_COUNT,
+    ST_LAST_WEAPON_ID       = 110, // Hardcoded
+//  ST_LAST_WEAPON_USE,
+    ST_BASE_CRTYPE          = 112, // Hardcoded
+//  ST_DEAD_BLOCKER_ID,
+//  ST_CURRENT_ARMOR_PERK,
+    ST_TALK_DISTANCE        = 115, // Hardcoded, if zero then using __TalkDistance
+    ST_SCALE_FACTOR         = 116, // Hardcoded
+    ST_WALK_TIME            = 117, // Hardcoded
+    ST_RUN_TIME             = 118, // Hardcoded
+    ST_MAX_TALKERS          = 119, // Hardcoded
+    // 120...129 RESERVED for engine, do not use
+    // 130...149 FREE
+    // 150...179 -> FOnlineParamAnim3D
+    // 180...199 FREE
+    // 200...217 -> FOnlineParamSkill
+    // 226...229 -> FOnlineParamTag
+    // 230...249 -> FOnlineParamTimeout
+    // 260...299 -> (FOnlineParamKills)
+    // 300...469 -> FOnlineParamPerk
+    // 500...509 -> FOnlineParamDamage
+    // 510...549 -> FOnlineParamMode
+    // 550...565 -> FOnlineParamTrait
+    // 800...809 -> FOnlineParamFollowerSlot
+    // 810...819 -> FOnlineParamMasterVar
+    // 820...829 -> FOnlineParamFollowerVar
+};
+
+PRAGMA_CRDATA("SPECIAL 0 6")
+shared enum FOnlineParamSPECIAL
+{
+    ST_STRENGTH   = 0, // Hardcoded
+    ST_PERCEPTION = 1,
+    ST_ENDURANCE  = 2, // Hardcoded
+    ST_CHARISMA   = 3, // Hardcoded
+    ST_INTELLECT  = 4, // Hardcoded
+    ST_AGILITY    = 5, // Hardcoded
+    ST_LUCK       = 6  // Hardcoded
+};
+
+PRAGMA_CRDATA("Absorb 16 22")
+shared enum FOnlineParamAbsorb
+{
+    ST_NORMAL_ABSORB = 16,
+/*
+   ST_LASER_ABSORB,
+   ST_FIRE_ABSORB,
+   ST_PLASMA_ABSORB,
+   ST_ELECTRO_ABSORB,
+   ST_EMP_ABSORB,
+   ST_EXPLODE_ABSORB
+ */
+};
+
+PRAGMA_CRDATA("Resist 23 31")
+shared enum FOnlineParamResist
+{
+    ST_NORMAL_RESIST    = 23, // Hardcoded
+/*
+   ST_LASER_RESIST
+   ST_FIRE_RESIST
+   ST_PLASMA_RESIST
+   ST_ELECTRO_RESIST
+   ST_EMP_RESIST
+   ST_EXPLODE_RESIST
+ */
+    ST_RADIATION_RESIST = 30, // Hardcoded
+    ST_POISON_RESIST,         // Hardcoded
+};
+
+/*
+   shared enum FOnlineParamStatExt
+   {
+    ST_STRENGTH_EXT = 32,
+    ST_PERCEPTION_EXT,
+    ST_ENDURANCE_EXT,
+    ST_CHARISMA_EXT,
+    ST_INTELLECT_EXT,
+    ST_AGILITY_EXT,
+    ST_LUCK_EXT,
+    ST_MAX_LIFE_EXT,
+    ST_ACTION_POINTS_EXT,
+    ST_ARMOR_CLASS_EXT,
+    ST_MELEE_DAMAGE_EXT,
+    ST_CARRY_WEIGHT_EXT,
+    ST_SEQUENCE_EXT,
+    ST_HEALING_RATE_EXT,
+    ST_CRITICAL_CHANCE_EXT,
+    ST_MAX_CRITICAL_EXT,
+    ST_NORMAL_ABSORB_EXT,
+    ST_LASER_ABSORB_EXT,
+    ST_FIRE_ABSORB_EXT,
+    ST_PLASMA_ABSORB_EXT,
+    ST_ELECTRO_ABSORB_EXT,
+    ST_EMP_ABSORB_EXT,
+    ST_EXPLODE_ABSORB_EXT,
+    ST_NORMAL_RESIST_EXT,
+    ST_LASER_RESIST_EXT,
+    ST_FIRE_RESIST_EXT,
+    ST_PLASMA_RESIST_EXT,
+    ST_ELECTRO_RESIST_EXT,
+    ST_EMP_RESIST_EXT,
+    ST_EXPLODE_RESIST_EXT,
+    ST_RADIATION_RESIST_EXT,
+    ST_POISON_RESIST_EXT,
+   };
+ */
+
+PRAGMA_CRDATA("Var 90 99")
+shared enum FOnlineParamVar
+{
+    ST_VAR0 = 90,
+    ST_VAR1,
+    ST_VAR2,
+    ST_VAR3,
+    ST_VAR4,
+    ST_VAR5,
+    ST_VAR6,
+    ST_VAR7,
+    ST_VAR8,
+    ST_VAR9
+};
+
+PRAGMA_CRDATA("Anim3D 150 179")
+#define ST_ANIM3D_LAYERS    (ST_ANIM3D_LAYER_SKIN)
+shared enum FOnlineParamAnim3D
+{
+    ST_ANIM3D_LAYER_SKIN     = 150, // Hardcoded
+    ST_ANIM3D_LAYER_RHANDLE  = 151,
+    ST_ANIM3D_LAYER_LHANDLE  = 152,
+    ST_ANIM3D_LAYER_BODY     = 153,
+    ST_ANIM3D_LAYER_FEET     = 154,
+    ST_ANIM3D_LAYER_HANDS    = 155,
+    ST_ANIM3D_LAYER_HEAD     = 156,
+    ST_ANIM3D_LAYER_HAIR     = 157,
+    ST_ANIM3D_LAYER_EYE      = 158,
+    ST_ANIM3D_LAYER_MUSTACHE = 159,
+    ST_ANIM3D_LAYER_PONYTAIL = 160,
+    ST_ANIM3D_LAYER_BEARD    = 161,
+    ST_ANIM3D_LAYER_SHOULDER = 162,
+    ST_ANIM3D_LAYER_ARMLET   = 163,
+    ST_ANIM3D_LAYER_BACK     = 164,
+    ST_ANIM3D_LAYER_BACKPACK = 165,
+    ST_ANIM3D_LAYER17        = 166,
+    ST_ANIM3D_LAYER18        = 167,
+    ST_ANIM3D_LAYER19        = 168,
+    ST_ANIM3D_LAYER20        = 169,
+    ST_ANIM3D_LAYER21        = 170,
+    ST_ANIM3D_LAYER22        = 171,
+    ST_ANIM3D_LAYER23        = 172,
+    ST_ANIM3D_LAYER24        = 173,
+    ST_ANIM3D_LAYER25        = 174,
+    ST_ANIM3D_LAYER26        = 175,
+    ST_ANIM3D_LAYER27        = 176,
+    ST_ANIM3D_LAYER28        = 177,
+    ST_ANIM3D_LAYER29        = 178,
+    ST_ANIM3D_LAYER30        = 179, // Hardcoded
+};
+
+PRAGMA_CRDATA("Skill 200 217")
+#define SKILL_BEGIN         (__SkillBegin)
+#define SKILL_END           (__SkillEnd)
+#define SKILL_COUNT         (SKILL_END - SKILL_BEGIN + 1)
+#define MAX_SKILL_VAL       (__SkillMaxValue)
+shared enum FOnlineParamSkill
+{
+    SK_SMALL_GUNS = 200,
+    SK_BIG_GUNS,
+    SK_ENERGY_WEAPONS,
+    SK_UNARMED,   // Hardcoded
+    SK_204,
+    SK_205,
+    SK_FIRST_AID = 206, // Hardcoded
+    SK_DOCTOR = 207,    // Hardcoded
+    SK_SNEAK = 208,     // Hardcoded
+    SK_LOCKPICK = 209,  // Hardcoded
+    SK_STEAL = 210,     // Hardcoded
+    SK_TRAPS = 211,     // Hardcoded
+    SK_SCIENCE = 212,   // Hardcoded
+    SK_REPAIR = 213,    // Hardcoded
+    SK_SPEECH = 214,    // Hardcoded
+    SK_BARTER = 215,    // Hardcoded
+    SK_216,
+};
+
+// / Tag skills
+PRAGMA_CRDATA("TagSkill 226 229")
+shared enum FOnlineParamTagSkill
+{
+    TAG_SKILL1 = 226, // Hardcoded
+    TAG_SKILL2,       // Hardcoded
+    TAG_SKILL3,       // Hardcoded
+    TAG_SKILL4        // Hardcoded
+};
+
+// / Timeouts
+PRAGMA_CRDATA("Timeout 230 249")
+shared enum FOnlineParamTimeout
+{
+    TO_SK_REPAIR = 232,        // Hardcoded
+    TO_SK_SCIENCE = 233,       // Hardcoded
+    TO_BATTLE = 238,           // Hardcoded
+    TO_TRANSFER = 239,         // Hardcoded
+    TO_REMOVE_FROM_GAME = 240, // Hardcoded
+    TO_KARMA_VOTING = 242,     // Hardcoded
+};
+
+// / Kills
+// Reserved 260..299 (BT_MEN..BT_GIANT_WASP)
+PRAGMA_CRDATA("Kill 260 299")
+#define KILL_BEGIN          (__KillBegin)
+#define KILL_END            (__KillEnd)
+#define KILL_COUNT          (KILL_END - KILL_BEGIN + 1)
+// 281..299
+
+// / Perks
+PRAGMA_CRDATA("Perk 300 469")
+#define PERK_BEGIN          (__PerkBegin)
+#define PERK_END            (__PerkEnd)
+#define PERK_COUNT          (PERK_END - PERK_BEGIN + 1)
+shared enum FOnlineParamPerk
+{
+    PE_DUMMY = 300,
+
+    PE_SILENT_RUNNING = 316, // Hardcoded
+    PE_MASTER_TRADER = 318,  // Hardcoded
+    PE_QUICK_POCKETS = 349,  // Hardcoded
+    PE_SMOOTH_TALKER = 350,  // Hardcoded
+};
+
+/*
+   PRAGMA_CRDATA("Addiction 470 476")
+   shared enum FOnlineParamAddiction
+   {
+    ? = 470
+   }
+ */
+
+/*
+   PRAGMA_CRDATA("Karma 480 497")
+   shared enum FOnlineParamKarma
+   {
+    ? = 480
+   };
+ */
+
+PRAGMA_CRDATA("Damage 500 509")
+#define DAMAGE_BEGIN        (__DamageBegin)
+#define DAMAGE_END          (__DamageEnd)
+#define DAMAGE_COUNT        (DAMAGE_END - DAMAGE_BEGIN + 1)
+shared enum FOnlineParamDamage
+{
+    DAMAGE_POISONED  = 500, // Hardcoded
+    DAMAGE_RADIATED  = 501, // Hardcoded
+    DAMAGE_RIGHT_ARM = 503, // Hardcoded
+    DAMAGE_LEFT_ARM  = 504, // Hardcoded
+    DAMAGE_RIGHT_LEG = 505, // Hardcoded
+    DAMAGE_LEFT_LEG  = 506  // Hardcoded
+};
+
+// / Modes
+PRAGMA_CRDATA("Mode 510 549")
+shared enum FOnlineParamMode
+{
+    MODE_HIDE = 510,        // Состояние скрытности                                  Hardcoded
+    MODE_NO_STEAL,          // Нельзя обворовать                                     Hardcoded
+    MODE_NO_BARTER,         // Нельзя тоговать                                       Hardcoded
+    MODE_NO_ENEMY_STACK,    // Нпц не запоминает врагов                              Hardcoded
+    MODE_NO_PVP,            // Запрещает ПвП для игрока                              Hardcoded
+    MODE_END_COMBAT,        // Согласен ли игрок закончить пошаговый бой             Hardcoded
+    MODE_DEFAULT_COMBAT,    // Режим боя по-умолчанию                                Hardcoded
+    MODE_NO_HOME,           // Нпц не возвращается в домашнюю позицию автоматически  Hardcoded
+    MODE_GECK,              // Локация не удаляется при наличии такого нпц           Hardcoded
+    MODE_NO_FAVORITE_ITEM,  // Режим установки итемов по-умолчанию                   Hardcoded
+    MODE_NO_ITEM_GARBAGER,  // Итемы не удаляются движком                            Hardcoded
+    MODE_DLG_SCRIPT_BARTER, // Возможно торговать при активном скрипте на диалоге    Hardcoded
+    MODE_UNLIMITED_AMMO,    // Бесконечные патроны                                   Hardcoded
+    MODE_NO_DROP,           // Нельзя сбрасывать предметы
+    MODE_NO_LOOSE_LIMBS,    // Не может терять конечности
+    MODE_DEAD_AGES,         // Мёртвое тело не исчезает
+    MODE_NO_HEAL,           // Повреждения не излечиваются с течением времени
+    MODE_INVULNERABLE,      // Неуязвимый                                            Hardcoded
+    MODE_NO_FLATTEN,        // Не помещать труп на задний план после смерти          Hardcoded
+    MODE_SPECIAL_DEAD,      // Есть особый вид смерти
+    MODE_RANGE_HTH,         // Возможна рукопашная атака на расстоянии               Hardcoded
+    MODE_NO_KNOCK,          // Не может быть сбит с ног
+    MODE_NO_LOOT,           // Нельзя лутать                                         Hardcoded
+    MODE_NO_SUPPLY,         // Не приходят охотники за головами при смерти нпц
+    MODE_NO_KARMA_ON_KILL,  // При смерти не производится перерасчета кармы игрока-убийцы
+    MODE_BARTER_ONLY_CASH,  // При бартере нпц принимает оплату только наличными
+    MODE_NO_PUSH,           // Can't be pushed                                       Hardcoded
+    MODE_NO_UNARMED,        // Not have unarmed attacks                              Hardcoded
+    MODE_NO_AIM,            // Critter can't do aim attacks                          Hardcoded
+    MODE_NO_WALK,           // Critter can't walk                                    Hardcoded
+    MODE_NO_RUN,            // Critter can't run                                     Hardcoded
+    MODE_NO_TALK,           // Npc can't talk                                        Hardcoded
+};
+
+// / Traits
+PRAGMA_CRDATA("Trait 550 565")
+shared enum FOnlineParamTrait
+{};
+
+// PRAGMA_CRDATA("Reputation 570 599")
+
+// Followers
+PRAGMA_CRDATA("FollowerSlot 800 809")
+shared enum FOnlineParamFollowerSlot
+{
+    FOLLOWER_SLOT1 = 800,
+    FOLLOWER_SLOT2,
+    FOLLOWER_SLOT3,
+    FOLLOWER_SLOT4,
+    FOLLOWER_SLOT5,
+    FOLLOWER_SLOT6,
+    FOLLOWER_SLOT7,
+    FOLLOWER_SLOT8,
+    FOLLOWER_SLOT9,
+    FOLLOWER_SLOT10,
+
+    FOLLOWER_SLOT_INVALID = -1
+};
+
+PRAGMA_CRDATA("MasterVar 810 819")
+shared enum FOnlineParamMasterVar
+{
+    MASTERVAR_FLAGS = 810
+};
+
+PRAGMA_CRDATA("FollowerVar 820 829")
+shared enum FOnlineParamFollowerVar
+{
+    FOLLOWERVAR_MASTER  = 820,
+    FOLLOWERVAR_FLAGS
+};
+
+// 830...989
+
+// extra parameters needed only during registration
+
+PRAGMA_CRDATA("Register 990 999")
+shared enum FOnlineParamRegister
+{
+    REGISTER_RACE = 990
+};
+#endif // ___PARAMS__ //

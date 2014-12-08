@@ -1,0 +1,12 @@
+#ifndef __MAPPER__UTILS_H__
+#define __MAPPER__UTILS_H__
+
+#include "../utils/generic_h.fos"
+
+#ifndef __MAPPER__UTILS__
+
+import MapperMap@ GetActiveMap() from "mapper/utils";
+
+#endif // !__MAPPER__UTILS__
+
+#endif // __MAPPER__UTILS_H__ //

@@ -1,0 +1,42 @@
+readonly SDK="https://xp-dev.com/svn/fonline_sdk"
+
+function md5copy()
+{
+    old_bin=$1
+    new_bin=$2
+    copy=0
+
+    if [ "x$new_bin" == "x" ]; then
+        return
+    fi
+
+    if [ -a $old_bin ]; then
+        old=`md5sum $old_bin | awk '{print $1}'`
+        new=`md5sum $new_bin | awk '{print $1}'`
+
+        if [ "$old" != "$new" ]; then
+            copy=1
+        fi
+    else
+        copy=1
+    fi
+
+    if [ $copy == 1 ]; then
+        echo "Copying $new_bin -> $old_bin"
+        cp $new_bin $old_bin
+    fi
+}
+
+function md5run()
+{
+    old_bin=$1
+    new_bin=$2
+
+    if [ "x$new_bin" == "x" ]; then
+        return
+    fi
+
+    md5copy $old_bin $new_bin
+
+    $old_bin
+}

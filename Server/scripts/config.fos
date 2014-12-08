@@ -1,0 +1,113 @@
+#ifndef __CONFIG__
+#define __CONFIG__
+
+#ifndef __MAPPER
+
+#include "_defines.fos"
+#include "_macros.fos"
+
+#endif // !__MAPPER
+
+bool module_init() // autorun
+{
+#ifdef __CLIENT
+    ClientVars();
+#endif
+#ifdef __MAPPER
+    MapperVars();
+#endif
+#ifdef __SERVER
+    ServerVars();
+#endif
+
+#ifndef __MAPPER
+    ClientServerVars();
+#endif
+
+    Geometry();
+
+    return( true );
+}
+
+#ifndef __MAPPER
+void ClientServerVars()
+{
+	__ApRegeneration = 5000;
+	__MinNameLength = 3;
+	__MaxNameLength = 30;
+
+	__LookChecks = 0;
+
+	// SETFLAG( __LookChecks, LOOK_CHECK_DIR ); // Nerf look by directions of look
+	// SETFLAG( __LookChecks, LOOK_CHECK_SNEAK_DIR ); // Nerf opponent sneak by directions of look
+	SETFLAG( __LookChecks, LOOK_CHECK_SNEAK_WEIGHT ); // Nerf sneak by current weight
+	// SETFLAG( __LookChecks, LOOK_CHECK_TRACE ); // Tracing for wall aviablility
+	// SETFLAG( __LookChecks, LOOK_CHECK_SCRIPT ); // Enable check_look, all other defines ignored
+	SETFLAG( __LookChecks, LOOK_CHECK_ITEM_SCRIPT ); // Enable check_trap_look for items with ITEM_TRAP flag
+
+	if( FLAG( __LookChecks, LOOK_CHECK_DIR ))
+	{
+		__LookDir0 =  0;         // Nerf % of look radius with direct look
+		__LookDir1 = 20;         // Nerf % of look radius with front side look
+		__LookDir2 = 40;         // Nerf % of look radius with back side look
+		__LookDir3 = 60;         // Nerf % of look radius with back look
+		__LookDir4 = __LookDir3; // Nerf % of look radius with back look (Square geometry)
+	}
+
+	if( FLAG( __LookChecks, LOOK_CHECK_SNEAK_DIR ))
+	{
+		__LookSneakDir0 = 90;               // Nerf % of opponent sneak with direct look
+		__LookSneakDir1 = 60;               // Nerf % of opponent sneak with front side look
+		__LookSneakDir2 = 30;               // Nerf % of opponent sneak with back side look
+		__LookSneakDir3 =  0;               // Nerf % of opponent sneak with back look
+		__LookSneakDir4 =  __LookSneakDir3; // Nerf % of opponent sneak with back look (Square geometry)
+	}
+
+	if( FLAG( __LookChecks, LOOK_CHECK_SNEAK_WEIGHT ))
+	{
+		__LookWeight = 10; // Nerf 1 sneak point per X gram
+	}
+}
+#endif // !__MAPPER
+
+#ifdef __CLIENT
+void ClientVars()
+{
+	__Enable3dRendering = false;
+	__HideCursor = false;
+	__ShowPlayerNames = true;
+}
+#endif // __CLIENT
+
+#ifdef __MAPPER
+void MapperVars()
+{
+}
+#endif // __MAPPER
+
+#ifdef __SERVER
+void ServerVars()
+{
+	__BuildMapperScripts = true;
+	__GenerateWorldDisabled = true;
+
+}
+#endif // __SERVER
+
+void Geometry()
+{
+    __MapHexagonal     = true;
+    __MapHexWidth      = 32;
+    __MapHexHeight     = 16;
+    __MapHexLineHeight = 12;
+    __MapTileOffsX     = -8;
+    __MapTileOffsY     = 34;
+    __MapRoofOffsX     = -8;
+    __MapRoofOffsY     = -64;
+    __MapRoofSkipSize  = 2;
+    __MapCameraAngle   = 25.7f;
+    __MapSmoothPath    = true;
+    __MapDataPrefix    = "geometry/";
+}
+
+#endif // __CONFIG__ //

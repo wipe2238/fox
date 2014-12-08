@@ -1,0 +1,32 @@
+{100000}{}{DEFAULT WEAPON}
+{100001}{}{DEFAULT WEAPON}
+{110000}{}{DEFAULT ARMOR}
+{110001}{}{DEFAULT ARMOR}
+
+{204900}{}{Exit Grid Marker}
+{204901}{}{Exit Grid Marker}
+{206700}{}{Secret Blocking Hex}
+{206701}{}{Secret Blocking Hex}
+{214100}{}{Light Source}
+{214101}{}{Light Source}
+{234400}{}{Block Hex Auto Invis}
+{234401}{}{Block Hex Auto Invis}
+{385200}{}{Trigger}
+{385201}{}{Trigger}
+{401200}{}{Scroll Blocker}
+{401201}{}{Scroll Blocker}
+{459200}{}{Light Stopper}
+{459201}{}{Light Stopper}
+{562100}{}{Wall}
+{562101}{}{Wall}
+{562200}{}{Wall s.t.}
+{562201}{}{Wall s.t.}
+
+{401600}{}{Exit Grid}
+{401700}{}{Exit Grid}
+{401800}{}{Exit Grid}
+{401900}{}{Exit Grid}
+{402000}{}{Exit Grid}
+{402100}{}{Exit Grid}
+{402200}{}{Exit Grid}
+{402300}{}{Exit Grid}

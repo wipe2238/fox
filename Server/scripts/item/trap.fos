@@ -1,0 +1,9 @@
+#ifndef __ITEM__TRAP__
+#define __ITEM__TRAP__
+
+bool check_trap_look( Map& map, Critter& cr,Item& trap ) // reserved
+{
+    return( true );
+}
+
+#endif // __ITEM__TRAP__ //

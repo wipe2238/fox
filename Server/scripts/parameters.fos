@@ -1,0 +1,47 @@
+#ifndef __PARAMETERS__
+#define __PARAMETERS__
+
+#include "_defines.fos"
+#include "_macros.fos"
+#include "_mutual.fos"
+
+uint get_attack_distantion( CritterMutual& cr, ItemMutual& item, uint8 mode ) // reserved
+{
+    return( 1 );
+}
+
+uint get_use_ap_cost( CritterMutual& cr, ItemMutual& item, uint8 mode ) // reserved
+{
+    return( 1 );
+}
+
+#ifdef __CLIENT
+
+void player_data_generate( int[]& data ) // reserved
+{
+	if( !valid(__RegParams) )
+	{
+		int[] regParams;
+		@__RegParams = regParams;
+		__RegParams.resize( PARAMS_COUNT );
+
+		for( uint p=ST_STRENGTH; p<=ST_LUCK; p++ )
+		{
+			__RegParams[p] = 5;
+		}
+
+		__RegParams[ST_AGE] = Random( 15, 25 );
+		__RegParams[ST_GENDER] = Random( GENDER_MALE, GENDER_FEMALE );
+	}
+
+	data = __RegParams;
+}
+
+bool player_data_check( int[]& data ) // reserved
+{
+    return( true );
+}
+
+#endif // __CLIENT
+
+#endif // __PARAMETERS__ //

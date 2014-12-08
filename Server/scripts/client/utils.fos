@@ -1,0 +1,8 @@
+#ifndef __CLIENT__UTILS__
+#define __CLIENT__UTILS__
+
+#include "utils_h.fos"
+
+void DUMMY() {}
+
+#endif // __CLIENT__UTILS__ //

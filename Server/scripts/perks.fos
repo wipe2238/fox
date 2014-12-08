@@ -1,0 +1,20 @@
+#ifndef __PERKS__
+#define __PERKS__
+
+#include "_mutual.fos"
+
+#ifdef __CLIENT
+
+bool check_perk( CritterCl& cr, uint perk ) // reserved
+{
+	return( PerkCheck( cr, perk ));
+}
+
+#endif // __CLIENT
+
+bool PerkCheck( CritterMutual& cr, uint perk )
+{
+	return( false );
+}
+
+#endif // __PERKS__ //

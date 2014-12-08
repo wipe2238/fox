@@ -1,0 +1,127 @@
+#ifndef __CLIENT__IO__
+#define __CLIENT__IO__
+
+#include "io_h.fos"
+#include "../gui_h.fos"
+
+array<bool> KeyPressed;
+array<bool> MousePressed;
+
+const uint8[] Repeatable = { DIK_TEXT, DIK_SPACE, DIK_BACK, DIK_DELETE, DIK_LEFT, DIK_RIGHT };
+
+void input_lost() // reserved
+{
+	ResetPressed();
+
+	GUI_EngineCallback_InputLost();
+
+	HandlePressedKeys();
+}
+
+void key_down( uint8 key, string@ keyText ) // reserved
+{
+	if( KeyPressed[key] && Repeatable.find( key ) < 0 )
+		return;
+
+	KeyPressed[key] = true;
+
+	bool hotkey = HandleHotkeys( key );
+
+	if( !hotkey )
+		GUI_EngineCallback_KeyDown( key, keyText );
+
+	if( key != DIK_TEXT )
+		HandlePressedKeys();
+}
+
+void key_up( uint8 key ) // reserved
+{
+	if( !KeyPressed[key] )
+		return;
+
+	KeyPressed[key] = false;
+
+	GUI_EngineCallback_KeyUp( key );
+
+	if( key != DIK_TEXT )
+		HandlePressedKeys();
+}
+
+void mouse_down( int button ) // reserved
+{
+	MousePressed[button] = true;
+
+	GUI_EngineCallback_MouseDown( button );
+}
+
+void mouse_move() // reserved
+{
+	GUI_EngineCallback_MouseMove();
+}
+
+void mouse_up( int button ) // reserved
+{
+	MousePressed[button] = false;
+
+	GUI_EngineCallback_MouseUp( button );
+}
+
+bool module_init() // autorun
+{
+	ResetPressed();
+
+	return( true );
+}
+
+void ResetPressed()
+{
+	KeyPressed.resize( 0 );
+	KeyPressed.resize( 0x100 );
+
+	MousePressed.resize( 0 );
+	MousePressed.resize( MOUSE_BUTTON_EXT4 + 1 );
+}
+
+array<bool>@ GetKeyPressed()
+{
+    return( KeyPressed );
+}
+
+array<bool>@ GetMousePressed()
+{
+    return( MousePressed );
+}
+
+bool IsKeyPressed( uint8 key )
+{
+	if( key >= KeyPressed.length() )
+		return( false );
+
+	return( KeyPressed[key] );
+}
+
+bool IsMousePressed( uint8 button )
+{
+	if( button >= MousePressed.length() )
+		return( false );
+
+	return( MousePressed[button] );
+}
+
+bool HandleHotkeys( uint8 key )
+{
+	return( false );
+}
+
+void HandlePressedKeys()
+{
+	bool noConsole = (GUI_GetActiveScreen().Index == CLIENT_MAIN_SCREEN_GAME && !__ConsoleActive && !GUI_IsConsoleActive());
+
+	__MapZooming      = (noConsole && KeyPressed[DIK_Z]);
+	__ScrollKeybLeft  = (noConsole && KeyPressed[DIK_LEFT]);
+	__ScrollKeybRight = (noConsole && KeyPressed[DIK_RIGHT]);
+	__ScrollKeybUp    = (noConsole && KeyPressed[DIK_UP]);
+	__ScrollKeybDown  = (noConsole && KeyPressed[DIK_DOWN]);
+}
+
+#endif // __CLIENT__IO__ //

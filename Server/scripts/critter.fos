@@ -1,0 +1,78 @@
+#ifndef __CRITTER__
+#define __CRITTER__
+
+#include "_animation.fos"
+#include "_macros.fos"
+#include "_params.fos"
+
+void critter_attack( Critter& cr, Critter& target, ProtoItem& weapon, uint8 weaponMode, ProtoItem@ ammo ) // reserved
+{
+}
+
+void critter_attacked( Critter& cr, Critter& attacker ) // reserved
+{
+}
+
+void critter_dead( Critter& cr, Critter@ killer ) // reserved
+{
+}
+
+void critter_finish( Critter& cr, bool toDelete ) // reserved
+{
+}
+
+void critter_idle( Critter& cr ) // reserved
+{
+}
+
+void critter_init( Critter& cr, bool firstTime ) // reserved
+{
+	const uint locPid = 10000;
+
+	Map@ map = cr.GetMap();
+	if( !valid(map) )
+	{
+		const uint locId = CreateLocation( locPid, cr.WorldX, cr.WorldY, null );
+		if( locId > 0 )
+		{
+			Location@ loc = GetLocation( locId );
+			if( valid(loc) )
+			{
+				loc.Visible = false;
+				loc.AutoGarbage = true;
+
+				if( !cr.TransitToMap( loc.GetMapByIndex( 0 ).Id, 0, false ))
+					Log( "Error moving player to map" );
+			}
+			else
+				Log( "Error getting location with id<"+locId+">" );
+		}
+		else
+			Log( "Error creating location with pid<"+locPid+">" );
+	}
+}
+
+void critter_reload_weapon( Critter& cr, Item& weapon, Item@ ammo ) // reserved
+{
+}
+
+void critter_respawn( Critter& cr ) // reserved
+{
+}
+
+bool critter_stealing( Critter& cr, Critter& thief, Item& item, uint count ) // reserved
+{
+    return( true );
+}
+
+bool critter_use_item( Critter& cr, Item& item, Critter@ targetCr, Item@ targetItem, Scenery@ targetScenery, uint param ) // reserved
+{
+    return( true );
+}
+
+bool critter_use_skill( Critter& cr, int skill, Critter@ targetCr, Item@ targetItem, Scenery@ targetScenery ) // reserved
+{
+    return( true );
+}
+
+#endif // __CRITTER__ //

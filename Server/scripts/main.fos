@@ -1,0 +1,27 @@
+#ifndef __MAIN__
+#define __MAIN__
+
+void init() // reserved
+{
+}
+
+uint loop() // reserved
+{
+	return( 1000 );
+}
+
+bool start() // reserved
+{
+	return( true );
+}
+
+bool module_init() // autorun
+{
+	CreateDirectoryTree( "dumps/" );
+	CreateDirectoryTree( "logs/" );
+	CreateDirectoryTree( "save/clients/" );
+
+	return( true );
+}
+
+#endif // __MAIN__ //

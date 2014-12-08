@@ -1,0 +1,16 @@
+#ifndef __MAPPER__UTILS__
+#define __MAPPER__UTILS__
+
+#include "utils_h.fos"
+
+MapperMap@ GetActiveMap()
+{
+    array<MapperMap@> maps;
+
+    int current = GetLoadedMaps( maps );
+    if( current < 0 )
+	return( null );
+    return( maps[current] );
+}
+
+#endif // __MAPPER__UTILS__ //

@@ -1,0 +1,37 @@
+#ifndef __MAPPER__COMMANDS__
+#define __MAPPER__COMMANDS__
+
+#include "../_defines.fos"
+#include "../_macros.fos"
+
+#include "utils_h.fos"
+
+string RemoveMapObjects( string str )
+{
+    MapperMap@ map = GetActiveMap();
+    if( !valid(map) )
+        return( "Map not loaded." );
+
+    array<string@> args = splitEx( str, " " );
+    int objType = 0, pid = 0;
+    if( args.length() < 2 || !StrToInt(args[0], objType) || !StrToInt(args[1], pid) )
+	return( "Usage: #RemoveMapObjects [objType] [pid]" );
+
+    if( objType < MAP_OBJECT_CRITTER || objType > MAP_OBJECT_SCENERY )
+	return( "Invalid objType<"+objType+">" );
+
+    if( pid <= 0 )
+	return( "Invalid pid<"+pid+">" );
+
+    array<MapperObject@> objects;
+    uint count = map.GetObjects( 1, 1, 10000, MAP_OBJECT_SCENERY, pid, objects );
+    if( count == 0 )
+	return( "Cannot find: objType<"+objType+"> pid<"+pid+">" );
+
+    DeleteObjects( objects );
+
+    return( "Removed "+count+" object"+(count != 1 ? "s" : "")+" with pid<"+pid+">" );
+}
+
+
+#endif // __MAPPER__COMMANDS__ //

@@ -1,0 +1,12 @@
+#ifndef __MAPPER__INTERFACE__
+#define __MAPPER__INTERFACE__
+
+void render_iface( uint layer ) // reserved
+{
+}
+
+void render_map() // reserved
+{
+}
+
+#endif // __MAPPER__INTERFACE__ //

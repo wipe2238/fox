@@ -1,0 +1,6 @@
+#ifndef __CLIENT__UTILS_H__
+#define __CLIENT__UTILS_H__
+
+#include "../utils/generic_h.fos"
+
+#endif // __CLIENT__UTILS_H__ //

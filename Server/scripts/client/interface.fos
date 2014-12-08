@@ -1,0 +1,72 @@
+#ifndef __CLIENT__INTERFACE__
+#define __CLIENT__INTERFACE__
+
+#include "../_macros.fos"
+
+#include "../gui_h.fos"
+
+bool check_interface_hit( int x, int y ) // reserved
+{
+	return( GUI_EngineCallback_CheckInterfaceHit( x, y ));
+}
+
+string critter_description( CritterCl& cr, int lookType ) // reserved
+{
+    return( cr.Name );
+}
+
+string generic_description( int descType, int& ox, int& oy ) // reserved
+{
+    return( "" );
+}
+
+void get_active_screens( array<int>& screens ) // reserved
+{
+	GUI_EngineCallback_GetActiveScreens( screens );
+}
+
+bool get_elevator( uint type, array<uint>& data ) // reserved
+{
+	return( false );
+}
+
+void items_collection( int collection, array<ItemCl@>& items ) // reserved
+{
+}
+
+string item_description( ItemCl& item, int lookType ) // reserved
+{
+    return( "" );
+}
+
+void message_box( string& messageText, int messageType, bool scriptCall ) // reserved
+{
+}
+
+void render_iface( uint layer ) // reserved
+{
+	CritterCl@ chosen = GetChosen();
+
+	if( layer == 2 )
+	{
+		GUI_EngineCallback_Render( true );
+	}
+	else if( layer == 3 )
+	{
+		GUI_EngineCallback_Render( false );
+	}
+}
+
+void render_map() // reserved
+{
+}
+
+void screen_change( bool show, int screen, dictionary@ params ) // reserved
+{
+	if( show )
+		GUI_EngineCallback_ShowScreen( screen, params );
+	else
+		GUI_EngineCallback_HideScreen( screen );
+}
+
+#endif // __CLIENT__INTERFACE__ //

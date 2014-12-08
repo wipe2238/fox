@@ -1,0 +1,11 @@
+#ifndef ___MACROS__
+#define ___MACROS__
+
+#define valid#(ptr) (@ptr!=null)
+
+#define FLAG#(x,flag)        (((x)&(flag))!=0)
+#define SETFLAG#(x,flag)     ((x)=(x)|(flag))
+#define UNSETFLAG#(x,flag)   (x=((x)&(~(flag))))
+#define TOGGLEFLAG#(x,flag)  ((x)^=(flag))
+
+#endif // ___MACROS__ //

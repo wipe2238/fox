@@ -1,0 +1,17 @@
+#ifndef __CLIENT__COMBAT__
+#define __CLIENT__COMBAT__
+
+void combat_result( array<uint>& result ) // reserved
+{
+}
+
+void hit_aim( uint8& aim ) // reserved
+{
+}
+
+int to_hit( CritterCl& chosen, CritterCl& target, ProtoItem& weapon, uint8 weaponMode ) // reserved
+{
+    return( 0 );
+}
+
+#endif // __CLIENT__COMBAT__ //

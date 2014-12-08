@@ -1,0 +1,19 @@
+#ifndef __CLIENT__MESSAGES__
+#define __CLIENT__MESSAGES__
+
+bool in_message( string& message, int& sayType, uint& critterId, uint& delay ) // reserved
+{
+	return( true );
+}
+
+bool out_message( string& message, int& sayType ) // reserved
+{
+	return( true );
+}
+
+bool map_message( string& message, uint16& hx, uint16& hy, uint& color, uint& delay ) // reserved
+{
+	return( true );
+}
+
+#endif // __CLIENT__MESSAGES__ //

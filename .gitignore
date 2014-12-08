@@ -1,0 +1,34 @@
+*~
+*-
+
+*.client
+*.client_deleted
+*.fo
+*.fosb
+*.fosp
+*.fomapb
+*.log
+*.user.cfg
+
+CrashDump_*
+
+/Client/data/cache/*
+/Client/data/fonts/*
+/Client/data/packs/*
+/Server/dumps/*
+/Server/logs/*
+/Server/save/bans/*
+/Server/save/clients/*
+
+# TLA stuff
+/Tools/InterfaceEditor/gui/tla/*
+
+# experimental builds
+/Client/FOnlineSDK*
+/Mapper/MapperSDK*
+/Server/FOnlineServerSDK*
+/Server/scripts/ASCompilerSDK*
+/Tools/CheckScriptsSDK
+
+# critical data
+!/Client/data/packs/fonline.zip

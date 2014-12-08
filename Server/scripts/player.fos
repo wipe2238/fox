@@ -1,0 +1,28 @@
+#ifndef __PLAYER__
+#define __PLAYER__
+
+bool player_allowcommand( Critter@ cr, string@ adminUser, uint8 command ) // reserved
+{
+    return( false );
+}
+
+bool player_getaccess( Critter& cr, int access, string& password ) // reserved
+{
+    return( false );
+}
+
+void player_levelup( Critter& cr, uint skillIdx, uint skillUp, uint perkIdx ) // reserved
+{
+}
+
+bool player_login( uint ip, string& name, uint id, uint& textMsg, uint& strNum, string& lexems ) // reserved
+{
+    return( true );
+}
+
+bool player_registration( uint ip, string& name, uint& textMsg, uint& strNum, string& lexems ) // reserved
+{
+    return( true );
+}
+
+#endif // __PLAYER__ //

@@ -1,0 +1,7 @@
+[Proto]
+ProtoId=5001
+Type=12
+PicMap=art/walls/va1000.frm
+PicInv=art/inven/reserved.frm
+Corner=5
+Flags=33554432

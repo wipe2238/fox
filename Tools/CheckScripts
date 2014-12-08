@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+
+# Run from Server/scripts/
+
+ASCOMPILER     = ./ASCompiler
+SCRIPTS_CFG    = scripts.cfg
+
+CLIENT_MODULES = $(shell grep -E "^[ \t]*@[ \t]+client[ \t]+module" $(SCRIPTS_CFG) | sed -e 's/\r//g' | awk '{print $$4".fos__CLIENT"}')
+MAPPER_MODULES = $(shell grep -E "^[ \t]*@[ \t]+mapper[ \t]+module" $(SCRIPTS_CFG) | sed -e 's/\r//g' | awk '{print $$4".fos__MAPPER"}')
+SERVER_MODULES = $(shell grep -E "^[ \t]*@[ \t]+server[ \t]+module" $(SCRIPTS_CFG) | sed -e 's/\r//g' | awk '{print $$4".fos__SERVER"}')
+
+all: $(CLIENT_MODULES) $(MAPPER_MODULES) $(SERVER_MODULES)
+
+$(CLIENT_MODULES):
+	@echo
+	@echo [ CLIENT: $(@:.fos__CLIENT=.fos) ]
+	@cd $(abspath $(dir $@)) && $(abspath $(ASCOMPILER)) $(notdir $(@:.fos__CLIENT=.fos)) -client
+
+$(MAPPER_MODULES):
+	@echo
+	@echo [ MAPPER: $(@:.fos__MAPPER=.fos) ]
+	@cd $(abspath $(dir $@)) && $(abspath $(ASCOMPILER)) $(notdir $(@:.fos__MAPPER=.fos)) -mapper
+
+$(SERVER_MODULES):
+	@echo
+	@echo [ SERVER: $(@:.fos__SERVER=.fos) ]
+	@cd $(abspath $(dir $@)) && $(abspath $(ASCOMPILER)) $(notdir $(@:.fos__SERVER=.fos))

@@ -1,0 +1,50 @@
+#ifndef __MAPPER__MAIN__
+#define __MAPPER__MAIN__
+
+bool console_message( string& message ) // reserved
+{
+	if( message.length() == 0 )
+		return( true );
+
+	// redirect all commands without specified module to mapper/commands
+	if( message[0] == "#" )
+	{
+	    if( findFirst( message, "@" ) < 0 )
+		message[0] = "#mapper/commands@";
+
+	    return( false );
+	}
+
+	if( message[0] == "~" || // load map
+	    message[0] == "^" || // save map
+	    message[0] == "@" || // critter animation
+	    message[0] == "*" )
+	{
+	    return( false );
+	}
+
+	return( false );
+}
+
+void finish() // reserved
+{
+}
+
+uint loop() // reserved
+{
+	return( 10 );
+}
+
+void map_load( MapperMap& map ) // reserved
+{
+}
+
+void map_save( MapperMap& map ) // reserved
+{
+}
+
+void start() // reserved
+{
+}
+
+#endif // __MAPPER__MAIN__ //

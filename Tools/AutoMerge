@@ -1,0 +1,50 @@
+#!/bin/bash
+
+. fonline
+
+client=(FOnline FOnline.exe FOnline.pdb)
+server=(FOnlineServer FOnlineServerDaemon FOnlineServer.exe FOnlineServer.pdb)
+mapper=(Mapper Mapper.exe Mapper.pdb)
+ascompiler=(ASCompiler ASCompiler.exe)
+scripts=(serializator sprite)
+
+function svn_cat()
+{
+	src=$1
+	dst=$2
+	ext=${dst##*.}
+
+	if [ "x$dst" == "x" ]; then
+		return
+	fi
+
+	echo "Saving: /$src -> /$dst"
+	svn cat -rHEAD $SDK/$src > ../$dst
+
+	chmod a-x ../$dst
+	if [ $ext == $dst ] || [ $ext == "exe" ]; then
+		echo "Executable: /$dst"
+		chmod u+x ../$dst
+	fi
+}
+
+for file in ${client[*]}; do
+    svn_cat Client/$file Client/$file
+done
+
+for file in ${mapper[*]}; do
+    svn_cat Tools/Mapper/$file Mapper/$file
+done
+
+for file in ${server[*]}; do
+    svn_cat Server/$file Server/$file
+done
+
+for file in ${ascompiler[*]}; do
+    svn_cat Tools/ASCompiler/$file Server/scripts/$file
+done
+
+for file in ${scripts[*]}; do
+    svn_cat Server/scripts/$file.fos Server/scripts/$file.fos
+    dos2unix ../Server/scripts/$file.fos
+done

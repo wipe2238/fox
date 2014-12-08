@@ -1,0 +1,19 @@
+#ifndef __ITEM__MOVEMENT__
+#define __ITEM__MOVEMENT__
+
+#include "../_mutual.fos"
+
+bool critter_check_move_item( CritterMutual& cr, ItemMutual& item, uint8 toSlot, ItemMutual@ swap ) // reserved
+{
+    return( true );
+}
+
+#ifdef __SERVER
+
+void critter_move_item( Critter& cr, Item& item, uint8 fromSlot ) // reserved
+{
+}
+
+#endif // __SERVER
+
+#endif // __ITEM__MOVEMENT__ //

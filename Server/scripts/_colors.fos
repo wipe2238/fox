@@ -1,0 +1,19 @@
+#ifndef ___COLORS__
+#define ___COLORS__
+
+#define COLOR_RGB               #(r,g,b)             (uint((0xFF<<24) | (((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define COLOR_ARGB              #(a,r,g,b)           (uint((((a)&0xFF)<<24)|(((r)&0xFF)<<16)|(((g)&0xFF)<<8)|((b)&0xFF)))
+#define COLOR_LIGHT3            #(x,y)               ((x)<(y)?(x):(y))
+#define COLOR_LIGHT2            #(color,light,offs)  (COLOR_LIGHT3((((color)>>(offs))&0xFF)+(light),255)<<(offs))
+#define COLOR_LIGHT             #(color,light)       (COLOR_LIGHT2(color,light,16)|COLOR_LIGHT2(color,light,8)|COLOR_LIGHT2(color,light,0)|((color)&0xFF000000))
+
+#define COLOR_TEXT          COLOR_RGB(60,248,0)
+#define COLOR_TEXT_FOCUSED  COLOR_DGREEN
+
+#define COLOR_RED           COLOR_RGB(0xC8,0,0)
+#define COLOR_DRED          COLOR_RGB(0xAA,0,0)
+#define COLOR_DGREEN        COLOR_RGB(0,0xAA,0)
+#define COLOR_DDGREEN       COLOR_RGB(0,0x66,0)
+#define COLOR_DBLUE         COLOR_RGB(0,0,0xAA)
+
+#endif // ___COLORS__ //

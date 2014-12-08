@@ -1,0 +1,731 @@
+#ifndef ___DEFINES__
+#define ___DEFINES__
+
+// TODO
+//  rename to _enums.fos after gui*.fos fixes
+
+#include "_params.fos"
+
+#define DIALOG_STRING #(dlg,str)  (1000000000+(dlg)*100000+(str))
+
+shared enum FOnlineAccessory
+{
+    ACCESSORY_NONE,
+    ACCESSORY_CRITTER,
+    ACCESSORY_HEX,
+    ACCESSORY_CONTAINER
+};
+
+#ifndef __SERVER
+shared enum FOnlineAnchorStyle
+{
+    ANCHOR_NONE   = 0x0,
+    ANCHOR_LEFT   = 0x1,
+    ANCHOR_RIGHT  = 0x2,
+    ANCHOR_TOP    = 0x4,
+    ANCHOR_BOTTOM = 0x8
+};
+#endif // !__SERVER
+
+shared enum FOnlineClientScreen
+{
+    // primary screens
+    CLIENT_SCREEN_NONE = 0,
+    CLIENT_MAIN_SCREEN_LOGIN,
+    CLIENT_MAIN_SCREEN_REGISTRATION,
+    CLIENT_MAIN_SCREEN_CREDITS,
+    CLIENT_MAIN_SCREEN_OPTIONS,
+    CLIENT_MAIN_SCREEN_GAME,
+    CLIENT_MAIN_SCREEN_GLOBAL_MAP,
+    CLIENT_MAIN_SCREEN_WAIT,
+    // 7...9
+
+    // secondary screens
+    CLIENT_SCREEN_INVENTORY = 10,
+    CLIENT_SCREEN_PICKUP,
+    CLIENT_SCREEN_MINIMAP,
+    CLIENT_SCREEN_CHARACTER,
+    CLIENT_SCREEN_DIALOG,
+    CLIENT_SCREEN_BARTER,
+    CLIENT_SCREEN_PIP_BOY,
+    CLIENT_SCREEN_FIX_BOY,
+    CLIENT_SCREEN_MENU,
+    CLIENT_SCREEN_AIM,
+    CLIENT_SCREEN_SPLIT,
+    CLIENT_SCREEN_TIMER,
+    CLIENT_SCREEN_DIALOGBOX,
+    CLIENT_SCREEN_ELEVATOR,
+    CLIENT_SCREEN_SAY,
+    CLIENT_SCREEN_CHA_NAME,
+    CLIENT_SCREEN_CHA_AGE,
+    CLIENT_SCREEN_CHA_SEX,
+    CLIENT_SCREEN_GM_TOWN,
+    CLIENT_SCREEN_INPUT_BOX,
+    CLIENT_SCREEN_SKILLBOX,
+    CLIENT_SCREEN_USE,
+    CLIENT_SCREEN_PERK,
+    CLIENT_SCREEN_TOWN_VIEW,
+    CLIENT_SCREEN_SAVE_LOAD,
+
+    // custom screens
+    CLIENT_SCREEN_TEST = 40
+};
+
+#define IS_CLIENT_MAIN_SCREEN #(s) ((s) >= CLIENT_MAIN_SCREEN_LOGIN && (s) <= CLIENT_MAIN_SCREEN_WAIT)
+
+#ifdef __SERVER
+shared enum FOnlineCommands
+{
+    COMMAND_EXIT = 1,
+    COMMAND_MYINFO,
+    COMMAND_GAMEINFO,
+    COMMAND_CRITID,
+    COMMAND_MOVECRIT,
+    COMMAND_KILLCRIT,
+    COMMAND_DISCONCRIT,
+    COMMAND_TOGLOBAL,
+    COMMAND_RESPAWN,
+    COMMAND_PARAM,
+    COMMAND_GETACCESS,
+    COMMAND_ADDITEM,
+    COMMAND_CRASH, // invalid
+    COMMAND_ADDITEM_SELF,
+    COMMAND_ADDNPC,
+    COMMAND_ADDLOCATION,
+    COMMAND_RELOADSCRIPTS,
+    COMMAND_LOADSCRIPT,
+    COMMAND_RELOAD_CLIENT_SCRIPTS,
+    COMMAND_RUNSCRIPT,
+    COMMAND_RELOADLOCATIONS,
+    COMMAND_LOADLOCATION,
+    COMMAND_RELOADMAPS,
+    COMMAND_LOADMAP,
+    COMMAND_REGENMAP,
+    COMMAND_RELOADDIALOGS,
+    COMMAND_LOADDIALOG,
+    COMMAND_RELOADTEXTS,
+    COMMAND_RELOADAI,
+    COMMAND_CHECKVAR,
+    COMMAND_SETVAR,
+    COMMAND_SETTIME,
+    COMMAND_BAN,
+    COMMAND_DELETE_ACCOUNT,
+    COMMAND_CHANGE_PASSWORD,
+    COMMAND_DROP_UID,
+    COMMAND_LOG
+};
+#endif // __SERVER
+
+shared enum FOnlineCondition
+{
+    COND_LIFE = 1,
+    COND_KNOCKOUT,
+    COND_DEAD
+};
+
+// Critter actions
+// Flags for chosen:
+// l - hardcoded local call
+// s - hardcoded server call
+// for all others critters actions call only server
+
+shared enum FOnlineCritterAction
+{
+//                              flags  actionExt                                                      item
+    ACTION_MOVE,              // l
+    ACTION_RUN,               // l
+    ACTION_MOVE_ITEM,         // l s   from slot                                                      +
+    ACTION_MOVE_ITEM_SWAP,    // l s   from slot                                                      +
+    ACTION_USE_ITEM,          // l s                                                                  +
+    ACTION_DROP_ITEM,         // l s   from slot                                                      +
+    ACTION_USE_WEAPON,        // l     fail attack 8 bit, use index (0-2) 4-7 bits, aim 0-3 bits      +
+    ACTION_RELOAD_WEAPON,     // l s                                                                  +
+    ACTION_USE_SKILL,         // l s   skill index (see SK_*)
+    ACTION_PICK_ITEM,         // l s                                                                  +
+    ACTION_PICK_CRITTER,      // l     0 - loot, 1 - steal, 2 - push
+    ACTION_OPERATE_CONTAINER, // l s   transfer type * 10 + [0 - get, 1 - get all, 2 - put]           + (exclude get all)
+    ACTION_BARTER,            //   s   0 - item taken, 1 - item given                                 +
+    ACTION_DODGE,             //       0 - front, 1 - back
+    ACTION_DAMAGE,            //       0 - front, 1 - back
+    ACTION_DAMAGE_FORCE,      //       0 - front, 1 - back
+    ACTION_KNOCKOUT,          //   s   0 - knockout anim2begin
+    ACTION_STANDUP,           //   s   0 - knockout anim2end
+    ACTION_FIDGET,            // l
+    ACTION_DEAD,              //   s   dead type anim2 (see Anim2 in _animation.fos)
+    ACTION_CONNECT,           //
+    ACTION_DISCONNECT,        //
+    ACTION_RESPAWN,           //   s
+    ACTION_REFRESH            //   s
+};
+
+#ifdef __SERVER
+shared enum FOnlineCritterEvent
+{
+    CRITTER_EVENT_IDLE,
+    CRITTER_EVENT_FINISH,
+    CRITTER_EVENT_DEAD,
+    CRITTER_EVENT_RESPAWN,
+    CRITTER_EVENT_SHOW_CRITTER,
+    CRITTER_EVENT_SHOW_CRITTER_1,
+    CRITTER_EVENT_SHOW_CRITTER_2,
+    CRITTER_EVENT_SHOW_CRITTER_3,
+    CRITTER_EVENT_HIDE_CRITTER,
+    CRITTER_EVENT_HIDE_CRITTER_1,
+    CRITTER_EVENT_HIDE_CRITTER_2,
+    CRITTER_EVENT_HIDE_CRITTER_3,
+    CRITTER_EVENT_SHOW_ITEM_ON_MAP,
+    CRITTER_EVENT_CHANGE_ITEM_ON_MAP,
+    CRITTER_EVENT_HIDE_ITEM_ON_MAP,
+    CRITTER_EVENT_ATTACK,
+    CRITTER_EVENT_ATTACKED,
+    CRITTER_EVENT_STEALING,
+    CRITTER_EVENT_MESSAGE,
+    CRITTER_EVENT_USE_ITEM,
+    CRITTER_EVENT_USE_ITEM_ON_ME,
+    CRITTER_EVENT_USE_SKILL,
+    CRITTER_EVENT_USE_SKILL_ON_ME,
+    CRITTER_EVENT_DROP_ITEM,
+    CRITTER_EVENT_MOVE_ITEM,
+    CRITTER_EVENT_KNOCKOUT,
+    CRITTER_EVENT_SMTH_DEAD,
+    CRITTER_EVENT_SMTH_STEALING,
+    CRITTER_EVENT_SMTH_ATTACK,
+    CRITTER_EVENT_SMTH_ATTACKED,
+    CRITTER_EVENT_SMTH_USE_ITEM,
+    CRITTER_EVENT_SMTH_USE_SKILL,
+    CRITTER_EVENT_SMTH_DROP_ITEM,
+    CRITTER_EVENT_SMTH_MOVE_ITEM,
+    CRITTER_EVENT_SMTH_KNOCKOUT,
+    CRITTER_EVENT_PLANE_BEGIN,
+    CRITTER_EVENT_PLANE_END,
+    CRITTER_EVENT_PLANE_RUN,
+    CRITTER_EVENT_BARTER,
+    CRITTER_EVENT_TALK,
+    CRITTER_EVENT_GLOBAL_PROCESS,
+    CRITTER_EVENT_GLOBAL_INVITE,
+    CRITTER_EVENT_TURN_BASED_PROCESS,
+    CRITTER_EVENT_SMTH_TURN_BASED_PROCESS,
+    CRITTER_EVENT_MAX
+};
+#endif // __SERVER
+
+#ifndef __SERVER
+shared enum FOnlineCursor
+{
+    CURSOR_DEFAULT,
+    CURSOR_MOVE,
+    CURSOR_USE_OBJECT,
+    CURSOR_USE_WEAPON,
+    CURSOR_USE_SKILL,
+    CURSOR_WAIT,
+    CURSOR_HAND
+};
+#endif // !__SERVER
+
+shared enum FOnlineDamageType
+{
+    DAMAGE_UNCALLED,
+    DAMAGE_NORMAL,
+    DAMAGE_LASER,
+    DAMAGE_FIRE,
+    DAMAGE_PLASMA,
+    DAMAGE_ELECTR,
+    DAMAGE_EMP,
+    DAMAGE_EXPLODE
+};
+
+
+#ifndef __SERVER
+shared enum FOnlineDockStyle
+{
+    DOCK_NONE,
+    DOCK_LEFT,
+    DOCK_RIGHT,
+    DOCK_TOP,
+    DOCK_BOTTOM,
+    DOCK_FILL
+};
+
+shared enum FOnlineDrawPrimitive
+{
+    DRAW_PRIMITIVE_POINTLIST,
+    DRAW_PRIMITIVE_LINELIST,
+    DRAW_PRIMITIVE_LINESTRIP,
+    DRAW_PRIMITIVE_TRIANGLELIST,
+    DRAW_PRIMITIVE_TRIANGLESTRIP,
+    DRAW_PRIMITIVE_TRIANGLEFAN
+};
+#endif // !__SERVER
+
+#ifndef __SERVER
+shared enum FOnlineFont
+{
+
+    FONT_OLD_FO = 0,
+    FONT_NUM,
+    FONT_BIG_NUM,
+    FONT_SAND_NUM,
+    FONT_SPECIAL,
+    FONT_FALLOUT,
+    FONT_THIN,
+    FONT_FAT,
+    FONT_BIG,
+
+    FONT_DEFAULT = FONT_FALLOUT
+};
+
+shared enum FOnlineFontFlag
+{
+    FT_NOBREAK      = 0x0001,
+    FT_NOBREAK_LINE = 0x0002,
+    FT_CENTERX      = 0x0004,
+    FT_CENTERY      = 0x0008,
+    FT_CENTERXY     = 0x000C,
+    FT_CENTERR      = 0x0010,
+    FT_BOTTOM       = 0x0020,
+    FT_UPPER        = 0x0040,
+    FT_NO_COLORIZE  = 0x0080,
+    FT_ALIGN        = 0x0100,
+    FT_BORDERED     = 0x0200
+};
+
+#define FT_SKIPLINES #(l)      (0x0400 | ((l) << 16))
+#define FT_SKIPLINES_END #(l)  (0x0800 | ((l) << 16))
+
+#endif // !__SERVER
+
+shared enum FOnlineGender
+{
+    GENDER_MALE,
+    GENDER_FEMALE,
+    GENDER_IT
+};
+
+#ifdef __SERVER
+shared enum FOnlineImage
+{
+    IMAGE_RELIEF
+};
+#endif // __SERVER
+
+#ifndef __SERVER
+shared enum FOnlineImageLayout
+{
+    IMAGE_LAYOUT_NONE,
+    IMAGE_LAYOUT_TILE,
+    IMAGE_LAYOUT_CENTER,
+    IMAGE_LAYOUT_STRETCH,
+    IMAGE_LAYOUT_ZOOM
+};
+#endif // !__SERVER
+
+#ifdef __SERVER
+shared enum FOnlineItemEvent
+{
+    ITEM_EVENT_FINISH,
+    ITEM_EVENT_ATTACK,
+    ITEM_EVENT_USE,
+    ITEM_EVENT_USE_ON_ME,
+    ITEM_EVENT_SKILL,
+    ITEM_EVENT_DROP,
+    ITEM_EVENT_MOVE,
+    ITEM_EVENT_WALK,
+    ITEM_EVENT_MAX
+};
+#endif // __SERVER
+
+shared enum FOnlineItemFlag
+{
+    ITEM_HIDDEN              = 0x00000001,
+    ITEM_FLAT                = 0x00000002,
+    ITEM_NO_BLOCK            = 0x00000004,
+    ITEM_SHOOT_THRU          = 0x00000008,
+    ITEM_LIGHT_THRU          = 0x00000010,
+    ITEM_MULTI_HEX           = 0x00000020,
+    ITEM_WALL_TRANS_END      = 0x00000040,
+    ITEM_TWO_HANDS           = 0x00000080,
+    ITEM_BIG_GUN             = 0x00000100,
+    ITEM_ALWAYS_VIEW         = 0x00000200,
+    ITEM_HAS_TIMER           = 0x00000400,
+    ITEM_BAD_ITEM            = 0x00000800,
+    ITEM_NO_HIGHLIGHT        = 0x00001000,
+    ITEM_SHOW_ANIM           = 0x00002000,
+    ITEM_SHOW_ANIM_EXT       = 0x00004000,
+    ITEM_LIGHT               = 0x00008000,
+    ITEM_GECK                = 0x00010000,
+    ITEM_TRAP                = 0x00020000,
+    ITEM_NO_LIGHT_INFLUENCE  = 0x00040000,
+    ITEM_NO_LOOT             = 0x00080000,
+    ITEM_NO_STEAL            = 0x00100000,
+    ITEM_GAG                 = 0x00200000,
+    ITEM_COLORIZE            = 0x00400000,
+    ITEM_COLORIZE_INV        = 0x00800000,
+    ITEM_CAN_USE_ON_SMTH     = 0x01000000,
+    ITEM_CAN_LOOK            = 0x02000000,
+    ITEM_CAN_TALK            = 0x04000000,
+    ITEM_CAN_PICKUP          = 0x08000000,
+    ITEM_CAN_USE             = 0x10000000,
+    ITEM_HOLODISK            = 0x20000000,
+    ITEM_RADIO               = 0x40000000
+//  ITEM_CACHED              = 0x80000000
+};
+
+shared enum FOnlineItemType
+{
+    // hardcoded
+    ITEM_TYPE_NONE,
+    ITEM_TYPE_ARMOR,
+    ITEM_TYPE_DRUG,
+    ITEM_TYPE_WEAPON,
+    ITEM_TYPE_AMMO,
+    ITEM_TYPE_MISC,
+    // 6
+    ITEM_TYPE_KEY = 7,
+    ITEM_TYPE_CONTAINER,
+    ITEM_TYPE_DOOR,
+    ITEM_TYPE_GRID,
+    ITEM_TYPE_GENERIC,
+    ITEM_TYPE_WALL,
+    ITEM_TYPE_CAR
+
+    // custom
+};
+
+#ifndef __SERVER
+shared enum FOnlineKeyboardCodes
+{
+    DIK_ESCAPE          = 0x01,
+    DIK_1               = 0x02,
+    DIK_2               = 0x03,
+    DIK_3               = 0x04,
+    DIK_4               = 0x05,
+    DIK_5               = 0x06,
+    DIK_6               = 0x07,
+    DIK_7               = 0x08,
+    DIK_8               = 0x09,
+    DIK_9               = 0x0A,
+    DIK_0               = 0x0B,
+    DIK_MINUS           = 0x0C, /* - on main keyboard */
+    DIK_EQUALS          = 0x0D,
+    DIK_BACK            = 0x0E, /* backspace */
+    DIK_TAB             = 0x0F,
+    DIK_Q               = 0x10,
+    DIK_W               = 0x11,
+    DIK_E               = 0x12,
+    DIK_R               = 0x13,
+    DIK_T               = 0x14,
+    DIK_Y               = 0x15,
+    DIK_U               = 0x16,
+    DIK_I               = 0x17,
+    DIK_O               = 0x18,
+    DIK_P               = 0x19,
+    DIK_LBRACKET        = 0x1A,
+    DIK_RBRACKET        = 0x1B,
+    DIK_RETURN          = 0x1C, /* Enter on main keyboard */
+    DIK_LCONTROL        = 0x1D,
+    DIK_A               = 0x1E,
+    DIK_S               = 0x1F,
+    DIK_D               = 0x20,
+    DIK_F               = 0x21,
+    DIK_G               = 0x22,
+    DIK_H               = 0x23,
+    DIK_J               = 0x24,
+    DIK_K               = 0x25,
+    DIK_L               = 0x26,
+    DIK_SEMICOLON       = 0x27,
+    DIK_APOSTROPHE      = 0x28,
+    DIK_GRAVE           = 0x29, /* accent grave */
+    DIK_LSHIFT          = 0x2A,
+    DIK_BACKSLASH       = 0x2B,
+    DIK_Z               = 0x2C,
+    DIK_X               = 0x2D,
+    DIK_C               = 0x2E,
+    DIK_V               = 0x2F,
+    DIK_B               = 0x30,
+    DIK_N               = 0x31,
+    DIK_M               = 0x32,
+    DIK_COMMA           = 0x33,
+    DIK_PERIOD          = 0x34, /* . on main keyboard */
+    DIK_SLASH           = 0x35, /* / on main keyboard */
+    DIK_RSHIFT          = 0x36,
+    DIK_MULTIPLY        = 0x37, /* * on numeric keypad */
+    DIK_LMENU           = 0x38, /* left Alt */
+    DIK_SPACE           = 0x39,
+    DIK_CAPITAL         = 0x3A,
+    DIK_F1              = 0x3B,
+    DIK_F2              = 0x3C,
+    DIK_F3              = 0x3D,
+    DIK_F4              = 0x3E,
+    DIK_F5              = 0x3F,
+    DIK_F6              = 0x40,
+    DIK_F7              = 0x41,
+    DIK_F8              = 0x42,
+    DIK_F9              = 0x43,
+    DIK_F10             = 0x44,
+    DIK_NUMLOCK         = 0x45,
+    DIK_SCROLL          = 0x46, /* Scroll Lock */
+    DIK_NUMPAD7         = 0x47,
+    DIK_NUMPAD8         = 0x48,
+    DIK_NUMPAD9         = 0x49,
+    DIK_SUBTRACT        = 0x4A, /* - on numeric keypad */
+    DIK_NUMPAD4         = 0x4B,
+    DIK_NUMPAD5         = 0x4C,
+    DIK_NUMPAD6         = 0x4D,
+    DIK_ADD             = 0x4E, /* + on numeric keypad */
+    DIK_NUMPAD1         = 0x4F,
+    DIK_NUMPAD2         = 0x50,
+    DIK_NUMPAD3         = 0x51,
+    DIK_NUMPAD0         = 0x52,
+    DIK_DECIMAL         = 0x53, /* . on numeric keypad */
+    DIK_F11             = 0x57,
+    DIK_F12             = 0x58,
+    DIK_NUMPADENTER     = 0x9C, /* Enter on numeric keypad */
+    DIK_RCONTROL        = 0x9D,
+    DIK_DIVIDE          = 0xB5, /* / on numeric keypad */
+    DIK_SYSRQ           = 0xB7,
+    DIK_RMENU           = 0xB8, /* right Alt */
+    DIK_PAUSE           = 0xC5, /* Pause */
+    DIK_HOME            = 0xC7, /* Home on arrow keypad */
+    DIK_UP              = 0xC8, /* UpArrow on arrow keypad */
+    DIK_PRIOR           = 0xC9, /* PgUp on arrow keypad */
+    DIK_LEFT            = 0xCB, /* LeftArrow on arrow keypad */
+    DIK_RIGHT           = 0xCD, /* RightArrow on arrow keypad */
+    DIK_END             = 0xCF, /* End on arrow keypad */
+    DIK_DOWN            = 0xD0, /* DownArrow on arrow keypad */
+    DIK_NEXT            = 0xD1, /* PgDn on arrow keypad */
+    DIK_INSERT          = 0xD2, /* Insert on arrow keypad */
+    DIK_DELETE          = 0xD3, /* Delete on arrow keypad */
+    DIK_LWIN            = 0xDB, /* Left Windows key */
+    DIK_RWIN            = 0xDC, /* Right Windows key */
+    DIK_TEXT            = 0xFE,
+    DIK_CLIPBOARD_PASTE = 0xFF
+};
+#endif // !__SERVER
+
+#ifdef __SERVER
+shared enum FOnlineLocationEvent
+{
+    LOCATION_EVENT_FINISH,
+    LOCATION_EVENT_ENTER,
+    LOCATION_EVENT_MAX
+};
+#endif // __SERVER
+
+shared enum FOnlineLookFlags
+{
+    LOOK_CHECK_DIR          = 0x01,
+    LOOK_CHECK_SNEAK_DIR    = 0x02,
+    LOOK_CHECK_SNEAK_WEIGHT = 0x04,
+    LOOK_CHECK_TRACE        = 0x08,
+    LOOK_CHECK_SCRIPT       = 0x10,
+    LOOK_CHECK_ITEM_SCRIPT  = 0x20
+}
+
+#ifdef __SERVER
+shared enum FOnlineMapEvent
+{
+    MAP_EVENT_FINISH,
+    MAP_EVENT_LOOP_0,
+    MAP_EVENT_LOOP_1,
+    MAP_EVENT_LOOP_2,
+    MAP_EVENT_LOOP_3,
+    MAP_EVENT_LOOP_4,
+    MAP_EVENT_IN_CRITTER,
+    MAP_EVENT_OUT_CRITTER,
+    MAP_EVENT_CRITTER_DEAD,
+    MAP_EVENT_TURN_BASED_BEGIN,
+    MAP_EVENT_TURN_BASED_END,
+    MAP_EVENT_TURN_BASED_PROCESS,
+    MAP_EVENT_MAX
+};
+#endif // __SERVER
+
+#ifdef __MAPPER
+shared enum FOnlineMapObjectType
+{
+    MAP_OBJECT_CRITTER,
+    MAP_OBJECT_ITEM,
+    MAP_OBJECT_SCENERY
+};
+#endif // __MAPPER
+
+#ifdef __CLIENT
+shared enum FOnlineMessageBox
+{
+    FOMB_GAME,
+    FOMB_TALK,
+    FOMB_COMBAT_RESULT,
+    FOMB_VIEW
+};
+#endif // __CLIENT
+
+#ifndef __SERVER
+shared enum FOnlineMouseButton
+{
+    MOUSE_BUTTON_LEFT,
+    MOUSE_BUTTON_RIGHT,
+    MOUSE_BUTTON_MIDDLE,
+    MOUSE_BUTTON_WHEEL_UP,
+    MOUSE_BUTTON_WHEEL_DOWN,
+    MOUSE_BUTTON_EXT0,
+    MOUSE_BUTTON_EXT1,
+    MOUSE_BUTTON_EXT2,
+    MOUSE_BUTTON_EXT3,
+    MOUSE_BUTTON_EXT4
+};
+#endif // !__SERVER
+
+shared enum FOnlinePath
+{
+    PT_DATA,
+    // 1
+    PT_ART = 2,
+    PT_ART_CRITTERS,
+    PT_ART_INTRFACE,
+    PT_ART_INVEN,
+    PT_ART_ITEMS,
+    PT_ART_MISC,
+    PT_ART_SCENERY,
+    PT_ART_SKILLDEX,
+    PT_ART_SPLASH,
+    PT_ART_TILES,
+    PT_ART_WALLS,
+    PT_TEXTURES,
+    PT_EFFECTS,
+    // 15
+    PT_SND_MUSIC = 16,
+    PT_SND_SFX,
+    PT_SCRIPTS,
+    PT_VIDEO,
+    PT_TEXTS,
+    PT_SAVE,
+    PT_FONTS,
+    PT_CACHE,
+#ifdef __SERVER
+    // 24...30
+    PT_SERVER_CONFIGS = 31,
+    PT_SERVER_TEXTS,
+    PT_SERVER_DIALOGS,
+    PT_SERVER_MAPS,
+    PT_SERVER_PRO_ITEMS,
+    PT_SERVER_PRO_CRITTERS = 36,
+    PT_SERVER_SCRIPTS,
+    PT_SERVER_SAVE,
+    PT_SERVER_CLIENTS,
+    PT_SERVER_BANS,
+    PT_SERVER_LOGS,
+    PT_SERVER_DUMPS,
+    PT_SERVER_PROFILER,
+    PT_SERVER_UPDATE,
+#endif // __SERVER
+
+    PT_ROOT = -1 // last
+};
+
+#ifdef __SERVER
+shared enum FOnlinePlaneResult
+{
+    PLANE_RUN_GLOBAL,
+    PLANE_KEEP,
+    PLANE_DISCARD
+};
+#endif // __SERVER
+
+shared enum FOnlineSayType
+{
+    // custom (public)
+
+    // hardcoded
+    SAY_NORM = 1,
+    SAY_NORM_ON_HEAD,
+    SAY_SHOUT,
+    SAY_SHOUT_ON_HEAD,
+    SAY_EMOTE,
+    SAY_EMOTE_ON_HEAD,
+    SAY_WHISP,
+    SAY_WHISP_ON_HEAD,
+    SAY_SOCIAL,
+    SAY_RADIO,
+    SAY_NETMSG,
+    SAY_DIALOG,
+    SAY_APPEND,
+    SAY_ENCOUNTER_ANY,
+    SAY_ENCOUNTER_RT,
+    SAY_ENCOUNTER_TB,
+    SAY_FIX_RESULT,
+    SAY_DIALOGBOX_TEXT,
+    SAY_DIALOGBOX_BUTTON0,
+    SAY_DIALOGBOX_BUTTON1,
+    SAY_DIALOGBOX_BUTTON2,
+    SAY_DIALOGBOX_BUTTON3,
+    SAY_DIALOGBOX_BUTTON4,
+    SAY_DIALOGBOX_BUTTON5,
+    SAY_DIALOGBOX_BUTTON6,
+    SAY_DIALOGBOX_BUTTON7,
+    SAY_DIALOGBOX_BUTTON8,
+    SAY_DIALOGBOX_BUTTON9,
+    SAY_DIALOGBOX_BUTTON10,
+    SAY_DIALOGBOX_BUTTON11,
+    SAY_DIALOGBOX_BUTTON12,
+    SAY_DIALOGBOX_BUTTON13,
+    SAY_DIALOGBOX_BUTTON14,
+    SAY_DIALOGBOX_BUTTON15,
+    SAY_DIALOGBOX_BUTTON16,
+    SAY_DIALOGBOX_BUTTON17,
+    SAY_DIALOGBOX_BUTTON18,
+    SAY_DIALOGBOX_BUTTON19,
+    SAY_SAY_TITLE,
+    SAY_SAY_TEXT,
+    SAY_FLASH_WINDOW
+
+    // custom (private)
+};
+
+#ifdef __SERVER
+shared enum FOnlineSendMessage
+{
+    MESSAGE_TO_WHO_SEE_ME,
+    MESSAGE_TO_I_SEE,
+    MESSAGE_TO_ALL_ON_MAP
+};
+#endif // __SERVER
+
+shared enum FOnlineSlot
+{
+    // hardcoded
+    SLOT_GROUND = 255,
+    SLOT_INV = 0,
+    SLOT_HAND1,
+    SLOT_HAND2,
+    SLOT_ARMOR
+
+    // custom
+};
+
+//#define SAY_DIALOGBOX_BUTTON #(b)  SAY_DIALOGBOX_BUTTON ## b
+
+shared enum FOnlineText
+{
+    TEXTMSG_TEXT,
+    TEXTMSG_DLG,
+    TEXTMSG_ITEM,
+    TEXTMSG_GAME,
+    TEXTMSG_GM,
+    TEXTMSG_COMBAT,
+    TEXTMSG_QUEST,
+    TEXTMSG_HOLO,
+    TEXTMSG_CRAFT,
+    TEXTMSG_INTERNAL
+};
+
+shared enum FOnlineUse
+{
+    USE_PRIMARY,
+    USE_SECONDARY,
+    USE_THIRD,
+    USE_RELOAD,
+    USE_USE,
+    MAX_USES = 3
+};
+
+#endif // ___DEFINES__ //

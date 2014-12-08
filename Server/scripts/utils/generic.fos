@@ -1,0 +1,20 @@
+#ifndef __UTILS__GENERIC__
+#define __UTILS__GENERIC__
+
+#include "generic_h.fos"
+
+int ReplaceTextEx( string& s, string& f, string& t )
+{
+	int ch = 0;
+	int p = findFirst( s, f );
+	while( p >= 0 )
+	{
+		s=substring(s,0,p)+t+substring(s,p+f.length(),s.length()-(p+f.length()));
+		ch++;
+		p = findFirst( s, f );
+	}
+
+	return( ch );
+}
+
+#endif // __UTILS__GENERIC__ //

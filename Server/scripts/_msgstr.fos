@@ -1,0 +1,6 @@
+#ifndef ___MSGSTR__
+#define ___MSGSTR__
+
+#define TEXT_SYMBOL_DOT  (0x2022) // UTF-8
+
+#endif // ___MSGSTR__ //

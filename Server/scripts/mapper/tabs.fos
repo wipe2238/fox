@@ -1,0 +1,9 @@
+#ifndef __MAPPER__TABS__
+#define __MAPPER__TABS__
+
+bool module_init()
+{
+	return( true );
+}
+
+#endif // __MAPPER__TABS__ //

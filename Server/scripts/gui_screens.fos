@@ -1,0 +1,174 @@
+﻿// GUI scheme name: default
+
+#include "_macros.fos"
+#include "_client_defines.fos"
+#include "_colors.fos"
+#include "_msgstr.fos"
+#include "gui_h.fos"
+#include "gui_screens_stuff.fos"
+
+void InitializeScreens()
+{
+    Login::Init( CLIENT_MAIN_SCREEN_LOGIN );
+    Game::Init( CLIENT_MAIN_SCREEN_GAME );
+}
+
+namespace Login
+{
+    class Login : GUIScreen
+    {
+        void LogIn()
+        {
+            GUIText@ login = FindText( "Username" );
+            GUIText@ password = FindText( "Password" );
+        
+            if( valid(login) && valid(password) )
+                CustomCall( "Login\n" + login.Text + "\n" + password.Text, "\n" );
+        }
+
+        void OnConstruct() override
+        {
+            SetModal( true );
+            SetAnchor( ANCHOR_LEFT| ANCHOR_TOP );
+            SetCanMove( true, false );
+        }
+
+        void OnGlobalInput( uint8 key, string@ text ) override
+        {
+            if( key == DIK_RETURN )
+                LogIn();
+        }
+    }
+
+    class Background : GUIPanel
+    {
+        void OnConstruct() override
+        {
+            SetAnchor( ANCHOR_LEFT| ANCHOR_TOP );
+            SetDock( DOCK_FILL );
+        }
+    }
+
+    class Menu : GUIPanel
+    {
+        void OnConstruct() override
+        {
+        }
+    }
+
+    class Username : GUITextInput
+    {
+        void OnConstruct() override
+        {
+            SetPosition( 50, 50 );
+            SetSize( 100, 10 );
+            SetTextFont( FONT_FALLOUT );
+            SetTextFlags( FT_CENTERX | FT_CENTERY );
+        }
+
+        void OnShow( dictionary@ params ) override
+        {
+            SetText( __Name );
+        }
+    }
+
+    class Password : GUITextInput
+    {
+        void OnConstruct() override
+        {
+            SetPosition( 50, 70 );
+            SetSize( 100, 10 );
+            SetTextFont( FONT_FALLOUT );
+            SetTextFlags( FT_CENTERX | FT_CENTERY );
+        }
+
+        void OnShow( dictionary@ params ) override
+        {
+            SetText( CustomCall( "GetPassword" ));
+        }
+    }
+
+    void Init( int screenIndex )
+    {
+        Login _Login();
+        _Login.Init( null );
+        Background _Background();
+        _Background.Init( _Login );
+        Menu _Menu();
+        _Menu.Init( _Login );
+        Username _Username();
+        _Username.Init( _Menu );
+        Password _Password();
+        _Password.Init( _Menu );
+        GUI_RegisterScreen( screenIndex, _Login );
+    }
+}
+
+namespace Game
+{
+    class Game : GUIScreen
+    {
+        void OnConstruct() override
+        {
+            SetNotHittable( true );
+            SetCanMove( true, false );
+        }
+
+        void OnGlobalMouseDown( int button ) override
+        {
+            if( __MapZooming && __SpritesZoomMin != __SpritesZoomMax )
+            {
+                if( button == MOUSE_BUTTON_WHEEL_UP )
+                    ChangeZoom( __SpritesZoom - 0.01 );
+                else if( button == MOUSE_BUTTON_WHEEL_DOWN )
+                    ChangeZoom( __SpritesZoom + 0.01 );
+                else if( button == MOUSE_BUTTON_MIDDLE )
+                    ChangeZoom( 1.0 );
+            }
+            
+            if( GetChild( 0 ).FindMouseHit() is null )
+            {
+                if( button == MOUSE_BUTTON_LEFT )
+                    CustomCall( "GameLMouseDown" );
+                else if( button == MOUSE_BUTTON_RIGHT )
+                    CustomCall( "GameRMouseDown" );
+            }
+        }
+
+        void OnGlobalMouseUp( int button ) override
+        {
+            if( GetChild( 0 ).FindMouseHit() is null )
+            {
+                if( button == MOUSE_BUTTON_LEFT )
+                    CustomCall( "GameLMouseUp" );
+                else if( button == MOUSE_BUTTON_RIGHT )
+                    CustomCall( "GameRMouseUp" );
+            }
+        }
+
+        void OnGlobalMouseMove() override
+        {
+            __ScrollMouseLeft = __MouseX <= 0;
+            __ScrollMouseRight = __MouseX >= __ScreenWidth - 1;
+            __ScrollMouseUp = __MouseY <= 0;
+            __ScrollMouseDown = __MouseY >= __ScreenHeight - 1;
+            
+        }
+    }
+
+    class Panel1 : GUIPanel
+    {
+        void OnConstruct() override
+        {
+        }
+    }
+
+    void Init( int screenIndex )
+    {
+        Game _Game();
+        _Game.Init( null );
+        Panel1 _Panel1();
+        _Panel1.Init( _Game );
+        GUI_RegisterScreen( screenIndex, _Game );
+    }
+}

@@ -1,0 +1,10 @@
+#ifndef __UTILS__GENERIC_H__
+#define __UTILS__GENERIC_H__
+
+#ifndef __UTILS__GENERIC__
+
+import int ReplaceTextEx( string& s, string& f, string& t ) from "utils/generic";
+
+#endif // !__UTILS__GENERIC__
+
+#endif // __UTILS__GENERIC_H__ //

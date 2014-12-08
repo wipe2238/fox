@@ -1,0 +1,12 @@
+#ifndef __ITEM_COST__
+#define __ITEM_COST__
+
+#include "../_mutual.fos"
+
+uint item_cost( ItemMutual& item, CritterMutual& cr, CritterMutual& npc, bool sell ) // reserved
+{
+    return 0;
+}
+
+#endif // __ITEM_COST__ //
+

@@ -1,0 +1,17 @@
+# Version
+{1}{}{FOnline: eXperiments}
+
+# Updater
+{5}{}{Checking updates}
+{6}{}{Connecting to server}
+{7}{}{Can't connect to server}
+{8}{}{Connection established}
+{9}{}{Data synchronization}
+{10}{}{Connection failed}
+{11}{}{Unable to read/write file}
+{12}{}{Client outdated}
+{13}{}{Client outdated, update via App Store}
+{14}{}{Client outdated, update via Google Play}
+{15}{}{Client executable updated, restart game}
+{16}{}{Client data outdated, restart game}
+{17}{}{Running game, please wait...}

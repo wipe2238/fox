@@ -1,0 +1,32 @@
+#ifndef __MAPPER_IO__
+#define __MAPPER_IO__
+
+void input_lost() // reserved
+{
+}
+
+bool key_down( uint8 key, string& keyText ) // reserved
+{
+	return( false );
+}
+
+bool key_up( uint8 key, string& keyText ) // reserved
+{
+	return( false );
+}
+
+bool mouse_down( int button ) // reserved
+{
+	return( false );
+}
+
+void mouse_move( int x, int y ) // reserved
+{
+}
+
+bool mouse_up( int button ) // reserved
+{
+	return( false );
+}
+
+#endif // __MAPPER__IO__ //

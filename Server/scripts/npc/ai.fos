@@ -1,0 +1,19 @@
+#ifndef __NPC__AI__
+#define __NPC__AI__
+
+bool npc_plane_begin( Critter& cr,NpcPlane& plane, int reason, Critter@ someCr, Item@ someItem )
+{
+    return( true );
+}
+
+bool npc_plane_end( Critter& cr, NpcPlane& plane, int reason, Critter@ someCr, Item@ someItem )
+{
+    return( true );
+}
+
+bool npc_plane_run( Critter& cr, NpcPlane& plane, int reason, uint& r0, uint& r1, uint& r2 )
+{
+    return( true );
+}
+
+#endif // __NPC__AI__ //
