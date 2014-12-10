@@ -1,0 +1,196 @@
+#ifndef __CLIENT__HOTKEYS__
+#define __CLIENT__HOTKEYS__
+
+#include "../_defines.fos"
+#include "../_macros.fos"
+
+#include "../gui_h.fos"
+#include "hotkeys_h.fos"
+#include "io_h.fos"
+
+#include "../utils/enums_h.fos"
+
+class Hotkey
+{
+	string Category;
+	string Name;
+
+	uint8 Key = 0;
+	bool Alt = false;
+	bool Ctrl = false;
+	bool Shift = false;
+
+	HotkeyFunction@ Function = null;
+
+	dictionary@ Params = null;
+	array<uint16> MainScreens;
+
+	Hotkey( string& category, string& name, HotkeyFunction@ function, uint8 key, uint modifiers ) final
+	{
+		this.Category = category;
+		this.Name = name;
+
+		if( valid(function) )
+			@this.Function = function;
+
+		this.Key = key;
+		this.Alt = (FLAG( modifiers, DIK_LMENU ) || FLAG( modifiers, DIK_RMENU ));
+		this.Ctrl = (FLAG( modifiers, DIK_LCONTROL ) || FLAG( modifiers, DIK_RCONTROL ));
+		this.Shift = (FLAG( modifiers, DIK_LSHIFT ) || FLAG( modifiers, DIK_RSHIFT ));
+	}
+
+	bool RunCheck( uint8 key, bool alt, bool ctrl, bool shift, uint16 screen ) final
+	{
+		if( this.Key == 0 || !valid(this.Function) )
+			return( false );
+
+		if( key != this.Key )
+			return( false );
+
+		if( (alt != this.Alt) || (ctrl != this.Ctrl) || (shift != this.Shift) )
+			return( false );
+
+		//
+
+		if( this.MainScreens.length() > 0 && this.MainScreens.find( screen ) < 0 )
+			return( false );
+
+		return( true );
+	}
+
+	void Run()
+	{
+		if( !valid(this.Function) )
+			return;
+
+		this.Function( this.Params );
+	}
+};
+
+array<Hotkey@> Hotkeys;
+
+bool module_init() // autorun
+{
+	RegisterHotkey( "General", "Quit", RageQuit, null, 0, DIK_F4, DIK_LMENU );
+	//RegisterHotkey( "General", "Quit", RageQuit, null, 0, DIK_ESCAPE, DIK_LSHIFT );
+
+	return( true );
+}
+
+void RageQuit( dictionary@ params ) // HotkeyFunction
+{
+	__Quit = true;
+}
+
+void RegisterHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, uint16 screen, uint8 key, uint modifiers /* = 0 */ )
+{
+	array<uint16> screens;
+	if( screen > 0 )
+		screens.insertLast( screen );
+	RegisterHotkey( category, name, func, params, screens, key, modifiers );
+}
+
+void RegisterHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, array<uint16> screens, uint8 key, uint modifiers /* = 0 */ )
+{
+	array<uint8> invalid =
+	{
+		DIK_LMENU, DIK_RMENU, DIK_LCONTROL, DIK_RCONTROL, DIK_LSHIFT, DIK_RSHIFT
+	};
+
+	if( !valid(func) )
+	{
+		Log( "Hotkey function not valid" );
+		return;
+	}
+
+	if( invalid.find( key ) >= 0 )
+	{
+		Log( "Hotkey invalid" );
+		return;
+	}
+
+	string self = reflection::getCurrentModule();
+	for( uint s=0, sLen=screens.length(); s<sLen; s++ )
+	{
+		if( screens[s] == 0 )
+		{
+			Log( "Hotkey screen invalid" );
+			return;
+		}
+
+		if( !EnumContains( self, "FOnlineClientScreen", screens[s] ))
+		{
+			Log( "Hotkey screen<"+screens[s]+"> not found" );
+			return;
+		}
+
+		if( screens[s] >= CLIENT_SCREEN_INVENTORY ) // TODO: IS_MAIN_SCREEN
+		{
+			Log( "Hotkey screen<"+screens[s]+"> not main" );
+			return;
+		}
+	}
+
+	string lcategory = category, lname = name;
+	lcategory = strlwr(lcategory);
+	lname = strlwr(lname);
+	for( uint h=0, hLen=Hotkeys.length(); h<hLen; h++ )
+	{
+		Hotkey@ hotkey = Hotkeys[h];
+		string l_category = hotkey.Category;
+		string l_name = hotkey.Name;
+		l_category = strlwr(l_category);
+		l_name = strlwr(l_name);
+
+		if( lcategory == l_category && lname == l_name )
+		{
+			Log( "Hotkey category<"+category+"> name<"+name+"> already registered" );
+			return;
+		}
+	}
+
+	Hotkey hotkey( category, name, func, key, modifiers );
+	if( valid( params ))
+		@hotkey.Params = params;
+	if( screens.length() > 0 )
+		hotkey.MainScreens = screens;
+	
+	Hotkeys.insertLast( hotkey );
+}
+
+void RegisterGameHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, uint key, uint modifiers /* = 0 */ )
+{
+	array<uint16> screens = { CLIENT_MAIN_SCREEN_GAME, CLIENT_MAIN_SCREEN_GLOBAL_MAP };
+	RegisterHotkey( category, name, func, params, screens, key, modifiers );
+}
+
+void RegisterMapHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, uint key, uint modifiers /* = 0 */ )
+{
+	RegisterHotkey( category, name, func, params, CLIENT_MAIN_SCREEN_GAME, key, modifiers );
+}
+
+void RegisterWorldmapHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, uint key, uint modifiers /* = 0 */ )
+{
+	RegisterHotkey( category, name, func, params, CLIENT_MAIN_SCREEN_GLOBAL_MAP, key, modifiers );
+}
+
+bool ProcessHotkey( uint8 key, string@ keyText = null )
+{
+	Message( "HotkeyCheck<"+(valid(keyText) && keyText.length() > 0 ? keyText : ""+key)+">" );
+
+	bool alt = AnyAlt, ctrl = AnyCtrl, shift = AnyShift;
+	uint16 screen = GUI_GetActiveMainScreen().Index;
+
+	for( uint h=0, hLen=Hotkeys.length(); h<hLen; h++ )
+	{
+		if( Hotkeys[h].RunCheck( key, alt, ctrl, shift, screen ))
+		{
+			Hotkeys[h].Run();
+			return( true );
+		}
+	}
+
+	return( false );
+}
+
+#endif // __CLIENT__HOTKEYS__ //

@@ -1,0 +1,19 @@
+#ifndef __CLIENT__HOTKEYS_H__
+#define __CLIENT__HOTKEYS_H__
+
+funcdef void HotkeyFunction( dictionary@ params );
+
+#ifndef __CLIENT__HOTKEYS__
+
+import void RegisterHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, uint16 screen, uint8 key, uint modifiers = 0) from "client/hotkeys";
+import void RegisterHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, array<uint16> screens, uint8 key, uint modifiers = 0 ) from "client/hotkeys";
+
+import void RegisterGameHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, uint key, uint modifiers = 0 ) from "client/hotkeys";
+import void RegisterMapHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, uint key, uint modifiers = 0 ) from "client/hotkeys";
+import void RegisterWorldmapHotkey( string& category, string& name, HotkeyFunction@ func, dictionary@ params, uint key, uint modifiers = 0 ) from "client/hotkeys";
+
+import bool ProcessHotkey( uint8 key, string@ keyText = null ) from "client/hotkeys";
+
+#endif // !__CLIENT__HOTKEYS__
+
+#endif // __CLIENT__HOTKEYS_H__ //

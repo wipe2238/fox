@@ -1,0 +1,10 @@
+#ifndef __UTILS__ENUMS_H__
+#define __UTILS__ENUMS_H__
+
+#ifndef __UTILS__ENUMS__
+
+import bool EnumContains( string& moduleName, string& enumName, int value ) from "utils/enums";
+
+#endif // !__UTILS__ENUMS__
+
+#endif // __UTILS__ENUMS_H__ //

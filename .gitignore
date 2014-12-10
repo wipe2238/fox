@@ -29,6 +29,7 @@ CrashDump_*
 /Server/FOnlineServerSDK*
 /Server/scripts/ASCompilerSDK*
 /Tools/CheckScriptsSDK
+/Tools/InterfaceEditor/InterfaceEditorSDK*
 
 # critical data
 !/Client/data/packs/fonline.zip

@@ -4,6 +4,7 @@
 #include "../_macros.fos"
 
 #include "../gui_h.fos"
+#include "hotkeys_h.fos"
 
 bool check_interface_hit( int x, int y ) // reserved
 {
@@ -17,7 +18,7 @@ string critter_description( CritterCl& cr, int lookType ) // reserved
 
 string generic_description( int descType, int& ox, int& oy ) // reserved
 {
-    return( "" );
+    return( " " ); // "" leads to crash
 }
 
 void get_active_screens( array<int>& screens ) // reserved
@@ -36,11 +37,21 @@ void items_collection( int collection, array<ItemCl@>& items ) // reserved
 
 string item_description( ItemCl& item, int lookType ) // reserved
 {
-    return( "" );
+    return( " " ); // "" leads to crash
 }
 
 void message_box( string& messageText, int messageType, bool scriptCall ) // reserved
 {
+	array<int> msgScreens = { CLIENT_MAIN_SCREEN_LOGIN, CLIENT_MAIN_SCREEN_REGISTRATION, CLIENT_MAIN_SCREEN_GAME };
+
+	array<GUIMessageBox@> msgBoxes;
+	GUI_CollectMessageBoxes( msgBoxes );
+
+	for( uint m=0, mLen=msgBoxes.length(); m<mLen; m++ )
+	{
+		if( msgScreens.find( msgBoxes[m].Screen.Index ) >= 0 )
+			msgBoxes[m].AddMessage( messageText, messageType );
+	}
 }
 
 void render_iface( uint layer ) // reserved
@@ -67,6 +78,40 @@ void screen_change( bool show, int screen, dictionary@ params ) // reserved
 		GUI_EngineCallback_ShowScreen( screen, params );
 	else
 		GUI_EngineCallback_HideScreen( screen );
+}
+
+bool module_init() // autorun
+{
+	string c = "Combat";
+	dictionary attack = {{ "cursor", CURSOR_USE_WEAPON }};
+
+	RegisterMapHotkey( c, "Use weapon", SetCursor, attack, DIK_A );
+
+	return( true );
+}
+
+void SetCursor( dictionary@ params ) // HotkeyFunction
+{
+	if( !valid(params) )
+	{
+		Log( "missing params" );
+		return;
+	}
+	
+	if( !params.exists( "cursor" ))
+	{
+		Log( "missing param<cursor>" );
+		return;
+	}
+
+	int cursor;
+	if( !params.get( "cursor", cursor ))
+	{
+		Log( "cannot access param<cursor>" );
+		return;
+	}
+
+	ChangeCursor( cursor );
 }
 
 #endif // __CLIENT__INTERFACE__ //

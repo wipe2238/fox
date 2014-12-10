@@ -1,0 +1,22 @@
+#ifndef __UTILS__ENUMS__
+#define __UTILS__ENUMS__
+
+bool EnumContains( string& moduleName, string& enumName, int value )
+{
+	array<reflection::type> enums = reflection::getEnums( moduleName );
+
+	for( uint e=0, eLen=enums.length(); e<eLen; e++ )
+	{
+		reflection::type enum_t = enums[e];
+
+		if( enum_t.nameWithoutNamespace == enumName )
+		{
+			array<int> values = enum_t.enumValues;
+			return( values.find( value ) >= 0 );
+		}
+	}
+
+	return( false );
+}
+
+#endif // __UTILS__ENUMS__ //

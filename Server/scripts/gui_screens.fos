@@ -88,6 +88,15 @@ namespace Login
         }
     }
 
+    class MsgBox : GUIMessageBox
+    {
+        void OnConstruct() override
+        {
+            SetPosition( 0, 200 );
+            SetSize( 300, 100 );
+        }
+    }
+
     void Init( int screenIndex )
     {
         Login _Login();
@@ -100,6 +109,8 @@ namespace Login
         _Username.Init( _Menu );
         Password _Password();
         _Password.Init( _Menu );
+        MsgBox _MsgBox();
+        _MsgBox.Init( _Login );
         GUI_RegisterScreen( screenIndex, _Login );
     }
 }
@@ -110,6 +121,8 @@ namespace Game
     {
         void OnConstruct() override
         {
+            SetSize( 300, 70 );
+            SetAnchor( ANCHOR_BOTTOM );
             SetNotHittable( true );
             SetCanMove( true, false );
         }
@@ -154,12 +167,43 @@ namespace Game
             __ScrollMouseDown = __MouseY >= __ScreenHeight - 1;
             
         }
+
+        void OnGlobalInput( uint8 key, string@ text ) override
+        {
+            if( key == DIK_RETURN )
+            {
+            
+                GUIConsole@ console =  cast<GUIConsole>(Find("Console"));
+                if( valid(console) && !console.Active )
+                    console.SetActive( true );
+            }
+            
+        }
     }
 
-    class Panel1 : GUIPanel
+    class Panel : GUIPanel
     {
         void OnConstruct() override
         {
+        }
+    }
+
+    class Console : GUIConsole
+    {
+        void OnConstruct() override
+        {
+            SetActive( false );
+            SetSize( 300, 10 );
+        }
+    }
+
+    class MessageBox : GUIMessageBox
+    {
+        void OnConstruct() override
+        {
+            SetPosition( 0, 10 );
+            SetSize( 300, 50 );
+            SetAnchor( ANCHOR_LEFT );
         }
     }
 
@@ -167,8 +211,12 @@ namespace Game
     {
         Game _Game();
         _Game.Init( null );
-        Panel1 _Panel1();
-        _Panel1.Init( _Game );
+        Panel _Panel();
+        _Panel.Init( _Game );
+        Console _Console();
+        _Console.Init( _Panel );
+        MessageBox _MessageBox();
+        _MessageBox.Init( _Panel );
         GUI_RegisterScreen( screenIndex, _Game );
     }
 }

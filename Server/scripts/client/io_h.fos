@@ -3,13 +3,13 @@
 
 #include "../_defines.fos"
 
-#define LeftCtrl	(IsKeyPressed(DIK_LCONTROL))
-#define RightCtrl	(IsKeyPressed(DIK_RCONTROL))
-#define AnyCtrl		(LeftCtrl || RightCtrl)
-
 #define LeftAlt         (IsKeyPressed(DIK_LMENU))
 #define RightAlt        (IsKeyPressed(DIK_RMENU))
 #define AnyAlt		(LeftAlt || RightAlt)
+
+#define LeftCtrl	(IsKeyPressed(DIK_LCONTROL))
+#define RightCtrl	(IsKeyPressed(DIK_RCONTROL))
+#define AnyCtrl		(LeftCtrl || RightCtrl)
 
 #define LeftShift	(IsKeyPressed(DIK_LSHIFT))
 #define RightShift	(IsKeyPressed(DIK_RSHIFT))
@@ -19,8 +19,8 @@
 
 #ifndef __CLIENT__IO__
 
-import bool IsKeyPressed( int key ) from "client_io";
-import bool IsMousePressed( int button ) from "client_io";
+import bool IsKeyPressed( uint8 key ) from "client/io";
+import bool IsMousePressed( uint8 button ) from "client/io";
 
 #endif // !__CLIENT__IO__
 

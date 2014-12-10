@@ -3,17 +3,11 @@
 
 #include "../gui_h.fos"
 
-// TODO: module_init()
-
-import void ResetPressed() from "client/io";
-
-import void ClientVars() from "config";
-import void Geometry() from "config";
-
 bool start()
 {
-	Log( "" );
 	GUI_EngineCallback_Start();
+
+	Message( "FOnline eXperiments, SDK r"+__VERSION );
 
 	return( true );
 }

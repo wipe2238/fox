@@ -73,6 +73,7 @@ void ClientServerVars()
 #ifdef __CLIENT
 void ClientVars()
 {
+	__DisableLMenu = true;
 	__Enable3dRendering = false;
 	__HideCursor = false;
 	__ShowPlayerNames = true;
