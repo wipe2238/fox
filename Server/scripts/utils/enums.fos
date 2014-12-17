@@ -1,7 +1,7 @@
 #ifndef __UTILS__ENUMS__
 #define __UTILS__ENUMS__
 
-bool EnumContains( string& moduleName, string& enumName, int value )
+reflection::type GetEnumType( string& moduleName, string& enumName ) // TODO: add to engine
 {
 	array<reflection::type> enums = reflection::getEnums( moduleName );
 
@@ -10,13 +10,64 @@ bool EnumContains( string& moduleName, string& enumName, int value )
 		reflection::type enum_t = enums[e];
 
 		if( enum_t.nameWithoutNamespace == enumName )
-		{
-			array<int> values = enum_t.enumValues;
-			return( values.find( value ) >= 0 );
-		}
+			return( enum_t );
+	}
+
+	reflection::type dummy;
+	return( dummy );
+}
+
+bool EnumContains( string& moduleName, string& enumName, int value )
+{
+	reflection::type enum_t = GetEnumType( moduleName, enumName );
+
+	if( enum_t.isAssigned )
+	{
+		array<int> values = enum_t.enumValues;
+		return( values.find( value ) >= 0 );
 	}
 
 	return( false );
+}
+
+string@ EnumValueName( string& moduleName, string& enumName, int value )
+{
+	reflection::type enum_t = GetEnumType( moduleName, enumName );
+
+	if( enum_t.isAssigned )
+	{
+		array<int> values = enum_t.enumValues;
+		array<string> names = enum_t.enumNames;
+
+		int idx = values.find( value );
+		if( idx >= 0 )
+			return( names[idx] );
+	}
+
+	return( null );
+}
+
+array<string>@ EnumValueNames( string& moduleName, string& enumName, int value )
+{
+	reflection::type enum_t = GetEnumType( moduleName, enumName );
+
+	if( enum_t.isAssigned )
+	{
+		array<int> values = enum_t.enumValues;
+		array<string> names = enum_t.enumNames;
+		array<string> result;
+
+		for( uint v=0, vLen=values.length(); v<vLen; v++ )
+		{
+			if( values[v] == value )
+				result.insertLast( names[v] );
+		}
+		
+		if( result.length() > 0 )
+			return( result );
+	}
+
+	return( null );
 }
 
 #endif // __UTILS__ENUMS__ //

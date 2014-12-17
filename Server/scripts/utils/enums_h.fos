@@ -4,6 +4,8 @@
 #ifndef __UTILS__ENUMS__
 
 import bool EnumContains( string& moduleName, string& enumName, int value ) from "utils/enums";
+import string@ EnumValueName( string& moduleName, string& enumName, int value ) from "utils/enums";
+import array<string>@ EnumValueNames( string& moduleName, string& enumName, int value ) from "utils/enums";
 
 #endif // !__UTILS__ENUMS__
 
