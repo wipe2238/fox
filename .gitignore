@@ -24,12 +24,10 @@ CrashDump_*
 /Tools/InterfaceEditor/gui/tla/*
 
 # experimental builds
-/Client/FOnlineSDK*
-/Mapper/MapperSDK*
-/Server/FOnlineServerSDK*
-/Server/scripts/ASCompilerSDK*
-/Tools/CheckScriptsSDK
-/Tools/InterfaceEditor/InterfaceEditorSDK*
+*SDK
+*SDK.cfg
+*SDK.exe
+*SDK.sh
 
 # critical data
 !/Client/data/packs/fonline.zip
