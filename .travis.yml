@@ -1,1 +1,1 @@
-script: "make -C Server/scripts -f ../../Tools/CheckScripts"
+script: "cd Server/scripts && make -f ../../Tools/CheckScripts"
