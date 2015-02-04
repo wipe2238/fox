@@ -1,0 +1,8 @@
+language: angelscript
+
+before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install libstdc++6:i386 -qq
+
+script:
+    - make -C Server/scripts -f ../../Tools/CheckScripts
