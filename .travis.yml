@@ -1,1 +1,0 @@
-script: "cd Server/scripts && ldd ./ASCompiler && make -f ../../Tools/CheckScripts"
