@@ -9,7 +9,13 @@ CLIENT_MODULES = $(shell grep -E "^[ \t]*@[ \t]+client[ \t]+module" $(SCRIPTS_CF
 MAPPER_MODULES = $(shell grep -E "^[ \t]*@[ \t]+mapper[ \t]+module" $(SCRIPTS_CFG) | sed -e 's/\r//g' | awk '{print $$4".fos__MAPPER"}')
 SERVER_MODULES = $(shell grep -E "^[ \t]*@[ \t]+server[ \t]+module" $(SCRIPTS_CFG) | sed -e 's/\r//g' | awk '{print $$4".fos__SERVER"}')
 
-all: $(CLIENT_MODULES) $(MAPPER_MODULES) $(SERVER_MODULES)
+all: client mapper server
+
+client: $(CLIENT_MODULES)
+
+mapper: $(MAPPER_MODULES)
+
+server: $(SERVER_MODULES)
 
 $(CLIENT_MODULES):
 	@echo

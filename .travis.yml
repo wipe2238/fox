@@ -5,4 +5,9 @@ before_install:
     - sudo apt-get install libstdc++6:i386 -qq
 
 script:
-    - make -C Server/scripts -f ../../Tools/CheckScripts
+    - make -C Server/scripts -f ../../Tools/CheckScripts ${SCRIPTS}
+
+env:
+    - SCRIPTS=client
+    - SCRIPTS=mapper
+    - SCRIPTS=server
