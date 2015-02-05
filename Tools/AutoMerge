@@ -8,6 +8,14 @@ mapper=(Mapper Mapper.exe Mapper.pdb)
 ascompiler=(ASCompiler ASCompiler.exe)
 scripts=(serializator sprite)
 
+rev=HEAD
+
+if [ -n $1 ]; then
+    rev=$1
+fi
+
+echo "AutMerge to revision: $rev"
+
 function svn_cat()
 {
 	src=$1
@@ -19,7 +27,7 @@ function svn_cat()
 	fi
 
 	echo "Saving: /$src -> /$dst"
-	svn cat -rHEAD $SDK/$src > ../$dst
+	svn cat -r$rev $SDK/$src > ../$dst
 
 	chmod a-x ../$dst
 	if [ $ext == $dst ] || [ $ext == "exe" ]; then
